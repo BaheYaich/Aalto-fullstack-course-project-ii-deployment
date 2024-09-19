@@ -1,0 +1,6 @@
+<h1>Addresses</h1>
+<ul>
+<% it.addresses.forEach((address) => { %>
+  <li><%= address.name %>, <%= address.address %></li>
+<% }); %>
+</ul>

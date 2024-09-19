@@ -1,16 +1,21 @@
-import { serve } from "./deps.js";
-import { sql } from "./database.js";
+import { serve } from "https://deno.land/std@0.222.1/http/server.ts";
+import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
+import * as addressService from "./services/addressService.js";
 
-const logNames = async () => {
-  const result = await sql`SELECT * FROM names`;
-  console.log(result);
+configure({
+  views: `${Deno.cwd()}/views/`,
+});
+
+const responseDetails = {
+  headers: { "Content-Type": "text/html;charset=UTF-8" },
 };
 
-const handleRequest = (request) => {
-  console.log(`Request to ${request.url}`);
-  logNames();
-  return new Response("Hello world!");
+const handleRequest = async (request) => {
+  const data = {
+    addresses: await addressService.findAll(),
+  };
+
+  return new Response(await renderFile("index.eta", data), responseDetails);
 };
 
-console.log("Launching server on port 7777");
 serve(handleRequest, { port: 7777 });
