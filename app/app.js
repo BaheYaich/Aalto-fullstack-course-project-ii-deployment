@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.222.1/http/server.ts";
 import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
-import * as addressService from "./services/addressService.js";
+import * as songService from "./services/songService.js";
 
 configure({
   views: `${Deno.cwd()}/views/`,
@@ -19,43 +19,44 @@ const redirectTo = (path) => {
   });
 };
 
-const deleteAddress = async (request) => {
+const listSongs = async (request) => {
+  const data = {
+    songs: await songService.findAll(),
+  };
+  return new Response(await renderFile("index.eta", data), responseDetails);
+};
+
+const deleteSong = async (request) => {
   const url = new URL(request.url);
   const parts = url.pathname.split("/");
-  const id = parts[2];
-  await addressService.deleteById(id);
+  const id = parts[1];
+  console.log(parts);
+  await songService.deleteById(id);
 
-  return redirectTo("/");
+  return redirectTo("/songs");
 };
 
-const addAddress = async (request) => {
+const addSong = async (request) => {
   const formData = await request.formData();
-
   const name = formData.get("name");
-  const address = formData.get("address");
+  const rating = formData.get("rating");
+  await songService.create(name, rating);
 
-  await addressService.create(name, address);
-
-  return redirectTo("/");
-};
-
-const listAddresses = async (request) => {
-  const data = {
-    addresses: await addressService.findAll(),
-  };
-
-  return new Response(await renderFile("index.eta", data), responseDetails);
+  return redirectTo("/songs");
 };
 
 const handleRequest = async (request) => {
   const url = new URL(request.url);
-  if (request.method === "POST" && url.pathname.startsWith("/delete/")) {
-    return await deleteAddress(request);
-  } else if (request.method === "POST") {
-    return await addAddress(request);
-  } else {
-    return await listAddresses(request);
+
+  if (request.method === "GET" && url.pathname === "/songs") {
+    return await listSongs();
+  } else if (request.method === "POST" && url.pathname === "/songs") {
+    await addSong(request);
+  } else if (request.method === "POST" && url.pathname.includes("delete")) {
+    await deleteSong(request);
   }
+
+  return redirectTo("/songs");
 };
 
 serve(handleRequest, { port: 7777 });
