@@ -1,21 +1,11 @@
-<h1>Songs!</h1>
+<h1>Addresses</h1>
+
+<h2>Add an address</h2>
+
 <form method="POST">
-  <input type="text" name="name" />
-  <input type="number" name="rating" />
+  Name: <input type="text" name="name" /><br/>
+  Address: <input type="text" name="address" /><br/>
   <input type="submit" value="Submit!" />
 </form>
 
-<table>
-  <tr>
-    <th>Song name</th>
-    <th>Rating</th>
-    <th>Delete</th>
-  </tr>
-    <% it.songs.forEach((song) => { %>
-    <tr>
-    <td><%= song.name %></td>
-    <td><%= song.rating %></td>
-    <td><form method="POST" action="<%= song.id %>/delete"><input type="submit" value="Delete" /></form></td>
-    </tr>
-  <% }); %>
-</table>
+<h2>Total addresses: <%= it.addresses %></h2>

@@ -10,7 +10,11 @@ const findAll = async () => {
     return await sql`SELECT * FROM songs`;
 };
 const deleteById = async (id) => {
-    await sql`DELETE FROM songs WHERE id = ${id}`;
+    try {
+        await sql`DELETE FROM songs WHERE id = ${id}`;
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 export { create, deleteById, findAll };

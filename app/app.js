@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.222.1/http/server.ts";
 import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
-import * as songService from "./services/songService.js";
+import * as addressService from "./services/addressService.js";
 
 configure({
   views: `${Deno.cwd()}/views/`,
@@ -19,44 +19,31 @@ const redirectTo = (path) => {
   });
 };
 
-const listSongs = async (request) => {
+const addAddress = async (request) => {
+  const formData = await request.formData();
+
+  const name = formData.get("name");
+  const address = formData.get("address");
+
+  await addressService.create(name, address);
+
+  return redirectTo("/");
+};
+
+const countAddresses = async (request) => {
   const data = {
-    songs: await songService.findAll(),
+    addresses: await addressService.countAddresses(),
   };
+
   return new Response(await renderFile("index.eta", data), responseDetails);
 };
 
-const deleteSong = async (request) => {
-  const url = new URL(request.url);
-  const parts = url.pathname.split("/");
-  const id = parts[1];
-  console.log(parts);
-  await songService.deleteById(id);
-
-  return redirectTo("/songs");
-};
-
-const addSong = async (request) => {
-  const formData = await request.formData();
-  const name = formData.get("name");
-  const rating = formData.get("rating");
-  await songService.create(name, rating);
-
-  return redirectTo("/songs");
-};
-
 const handleRequest = async (request) => {
-  const url = new URL(request.url);
-
-  if (request.method === "GET" && url.pathname === "/songs") {
-    return await listSongs();
-  } else if (request.method === "POST" && url.pathname === "/songs") {
-    await addSong(request);
-  } else if (request.method === "POST" && url.pathname.includes("delete")) {
-    await deleteSong(request);
+  if (request.method === "POST") {
+    return await addAddress(request);
+  } else {
+    return await countAddresses();
   }
-
-  return redirectTo("/songs");
 };
 
 serve(handleRequest, { port: 7777 });
