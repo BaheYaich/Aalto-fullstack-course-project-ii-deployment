@@ -22,7 +22,7 @@ services:
         - project.env
 
   flyway:
-    image: flyway/flyway:10.18.0-alpine
+    image: flyway/flyway:10.18.2-alpine
     depends_on:
       - database
     volumes:

@@ -1,27 +1,37 @@
 import { serve } from "https://deno.land/std@0.222.1/http/server.ts";
-import { configure, renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
-import * as measurementService from "./services/measurementService.js";
+import { configure } from "https://deno.land/x/eta@v2.2.0/mod.ts";
+import * as workEntryController from "./controllers/workEntryController.js";
+import * as requestUtils from "./utils/requestUtils.js";
+import * as taskController from "./controllers/taskController.js";
 
 configure({
   views: `${Deno.cwd()}/views/`,
 });
 
-const responseDetails = {
-  headers: { "Content-Type": "text/html;charset=UTF-8" },
-};
-
-const averageMeasurement = async () => {
-  const data = {
-    empty: await measurementService.isEmpty(),
-    average: await measurementService.averageMeasurement(),
-  };
-
-  return new Response(await renderFile("index.eta", data), responseDetails);
-};
-
 const handleRequest = async (request) => {
-  if (request.method === "GET") {
-    return await averageMeasurement();
+  const url = new URL(request.url);
+
+  if (url.pathname === "/" && request.method === "GET") {
+    return requestUtils.redirectTo("/tasks");
+  } else if (url.pathname === "/tasks" && request.method === "POST") {
+    return await taskController.addTask(request);
+  } else if (url.pathname === "/tasks" && request.method === "GET") {
+    return await taskController.viewTasks(request);
+  } else if (url.pathname.match("tasks/[0-9]+") && request.method === "GET") {
+    return await taskController.viewTask(request);
+  } else if (
+    url.pathname.match("tasks/[0-9]+/entries/[0-9]+") &&
+    request.method === "POST"
+  ) {
+    return await workEntryController.finishWorkEntry(request);
+  } else if (
+    url.pathname.match("tasks/[0-9]+/entries") && request.method === "POST"
+  ) {
+    return await workEntryController.createWorkEntry(request);
+  } else if (url.pathname.match("tasks/[0-9]+") && request.method === "POST") {
+    return await taskController.completeTask(request);
+  } else {
+    return new Response("Not found", { status: 404 });
   }
 };
 

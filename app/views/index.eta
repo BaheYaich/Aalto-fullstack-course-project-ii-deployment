@@ -1,6 +1,0 @@
-<h1>Measurements</h1>
-<% if (it.empty === "0" || it.average === null) { %>
-<h2> Not enough measurements for calculating the average.</h2>
-<% } else { %>
-<h2>Measurement average: <%= it.average %></h2>
-<% } %>
