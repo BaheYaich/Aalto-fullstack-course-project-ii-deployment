@@ -1,8 +1,8 @@
-import { serve } from "https://deno.land/std@0.222.1/http/server.ts";
-import { configure } from "https://deno.land/x/eta@v2.2.0/mod.ts";
+import { serve } from "./deps.js";
+import { configure } from "./deps.js";
+import * as taskController from "./controllers/taskController.js";
 import * as workEntryController from "./controllers/workEntryController.js";
 import * as requestUtils from "./utils/requestUtils.js";
-import * as taskController from "./controllers/taskController.js";
 
 configure({
   views: `${Deno.cwd()}/views/`,
