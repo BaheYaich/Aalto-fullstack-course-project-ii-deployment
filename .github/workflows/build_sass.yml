@@ -16,10 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Deno
+      - name: Install Sass
         run: |
-          curl -fsSL https://deno.land/x/install/install.sh | sh
-          echo "$HOME/.deno/bin" >> $GITHUB_PATH  # Add Deno to the PATH
+          npm install -g sass  # Install Sass globally
 
       - name: Compile SCSS
-        run: deno run --allow-read --allow-write --allow-run shopping-lists/compile_sass.ts
+        run: ./shopping-lists/compile_sass.sh
