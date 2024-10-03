@@ -20,5 +20,11 @@ jobs:
         run: |
           npm install -g sass  # Install Sass globally
 
+      - name: Check Current Directory
+        run: pwd
+
+      - name: List Files
+        run: ls -la shopping-lists
+
       - name: Compile SCSS
         run: ./shopping-lists/compile_sass.sh

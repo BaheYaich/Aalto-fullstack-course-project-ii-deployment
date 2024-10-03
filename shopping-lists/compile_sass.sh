@@ -3,7 +3,7 @@
 
 echo "Starting SCSS compilation..."
 
-OUTPUT_DIR="../shopping-lists/assets/css"
+OUTPUT_DIR="assets/css"
 echo "Output directory: $OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 
