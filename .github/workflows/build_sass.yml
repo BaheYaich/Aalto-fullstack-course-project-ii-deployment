@@ -22,4 +22,4 @@ jobs:
           echo "$HOME/.deno/bin" >> $GITHUB_PATH  # Add Deno to the PATH
 
       - name: Compile SCSS
-        run: deno run --allow-read --allow-write shopping-lists/compile_sass.ts
+        run: deno run --allow-read --allow-write --allow-run shopping-lists/compile_sass.ts
