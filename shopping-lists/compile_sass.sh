@@ -3,8 +3,12 @@
 
 echo "Starting SCSS compilation..."
 
+# Get the directory of the script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "Script directory: $SCRIPT_DIR"
+
 # Define output directory
-OUTPUT_DIR="./assets/css"  # Output directory for the compiled CSS
+OUTPUT_DIR="$SCRIPT_DIR/assets/css"  # Output directory for the compiled CSS
 echo "Output directory: $OUTPUT_DIR"
 
 # Check if the output directory exists, create it if it doesn't
@@ -16,7 +20,7 @@ else
 fi
 
 # Check if the SCSS input file exists
-SCSS_FILE="./assets/scss/main.scss"
+SCSS_FILE="$SCRIPT_DIR/assets/scss/main.scss"
 if [ -f "$SCSS_FILE" ]; then
     echo "SCSS file found: $SCSS_FILE"
 else
@@ -41,11 +45,11 @@ ls -la
 
 # List the contents of the assets directory
 echo "Contents of the assets directory:"
-ls -la ./assets
+ls -la "$SCRIPT_DIR/assets"
 
 # List the contents of the assets/scss directory
 echo "Contents of the assets/scss directory:"
-ls -la ./assets/scss
+ls -la "$SCRIPT_DIR/assets/scss"
 
 # Compiling SCSS
 echo "Compiling SCSS..."
