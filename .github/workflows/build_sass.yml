@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Deno
-        uses: denolib/setup-deno@v1
-        with:
-          deno-version: v1.34.0  
+      - name: Install Deno
+        run: |
+          curl -fsSL https://deno.land/x/install/install.sh | sh
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH  # Add Deno to the PATH
 
       - name: Compile SCSS
         run: deno run --allow-read --allow-write compile_sass.ts
