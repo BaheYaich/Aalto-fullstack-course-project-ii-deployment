@@ -1,0 +1,25 @@
+# .github/workflows/build.yml
+name: Build SCSS
+
+on:
+  push:
+    branches:
+      - chapter-20
+  pull_request:
+    branches:
+      - chapter-20
+
+jobs:
+  build:
+    runs-on: alpine-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Deno
+        uses: denolib/setup-deno@v1
+        with:
+          deno-version: v1.46.3  
+
+      - name: Compile SCSS
+        run: deno run --allow-read --allow-write compile_sass.ts
