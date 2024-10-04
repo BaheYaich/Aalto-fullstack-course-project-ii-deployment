@@ -22,7 +22,7 @@ services:
         - project.env
 
   flyway:
-    image: flyway/flyway:10.18.2-alpine
+    image: flyway/flyway:10.19.0-alpine
     depends_on:
       - database
     volumes:
@@ -34,7 +34,7 @@ services:
   e2e-playwright:
     entrypoint: "/bin/true" # Prevent startup on docker-compose up
     build: e2e-playwright
-    image: e2e-playwright
+    image: e2e-playwright:latest
     network_mode: host
     depends_on:
       - app
