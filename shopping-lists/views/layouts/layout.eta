@@ -15,7 +15,7 @@
 
   <% /* Makeshift navigational breadcrumb */ %>
   <header>
-    <nav class="container">
+    <nav class="container p-layout">
       <ul>
         <% if (it.path != "/") { %>
           <%~ includeFile("partials/mainpage.eta") %>
@@ -29,9 +29,7 @@
     
   <% /* Main unique content */ %>
   <main>
-    <section class="container">
-      <%~ it.body %>
-    </section>
+    <%~ it.body %>
   </main>
 
   </body>

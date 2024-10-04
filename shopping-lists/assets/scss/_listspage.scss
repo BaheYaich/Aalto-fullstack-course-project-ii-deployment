@@ -1,0 +1,66 @@
+section#ActiveLists {
+    display: grid;
+    gap: 4rem;
+
+    .form-add-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+
+        h2 {
+            display: inherit;
+            align-items: center;
+
+            .add {
+                fill: white;
+                width: 1em;
+                height: 1em;
+                margin-right: 0.75em;
+            }
+        }
+
+        form {
+            input[type="text"] {
+                width: 30ch;
+            }
+        }
+    }
+
+    .active-lists {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2rem;
+
+        ul {
+            padding-left: 0;
+
+            li {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+
+                a {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    text-decoration: underline;
+
+                    .list {
+                        fill: white;
+                        width: 0.75em;
+                        height: 0.75em;
+                        margin-right: 0.75em;
+                    }
+                }
+            }
+        }
+    }
+
+}

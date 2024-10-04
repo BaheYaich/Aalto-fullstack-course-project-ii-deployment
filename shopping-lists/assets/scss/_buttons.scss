@@ -1,0 +1,15 @@
+.p-layout form {
+    .p-form-custom-btn {
+        font-size: 1rem;
+        border: 0;
+        color: white;
+
+        &.p-form-cancel {
+            background: linear-gradient(#fc4a58, #c6262e);
+        }
+
+        &.p-form-restore {
+            background: linear-gradient(#29b61c, #2e740a);
+        }
+    }
+}

@@ -1,14 +1,24 @@
-main {
-    height: 100dvh;
-    display: grid;
-    place-items: center;
+section#Statistics {
+    display: inherit;
+    place-items: inherit;
+    gap: 4rem;
 
-    section {
-        display: inherit;
-        place-items: inherit;
+    h1 {
+        text-align: center;
 
-        h1 {
-            text-align: center;
+        a {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            font-size: inherit;
+
+            svg.list {
+                fill: white;
+                width: 2rem;
+                height: 2rem;
+                margin-right: 0.75em;
+            }
         }
     }
 }

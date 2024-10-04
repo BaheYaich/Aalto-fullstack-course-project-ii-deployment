@@ -1,32 +1,40 @@
 <% layout("./layouts/layout.eta", { title: 'List'}) %>
+<section id="ActiveList" class="container p-layout">
 
-<h1><%= it.list.name %></h1>
+    <div class="active-list-form">
+        <h1><%= it.list.name %></h1>
 
-<h2>Add an item</h2>
+        <h2>Add an item</h2>
 
-<form action="/lists/<%= it.list.id %>/items" method="POST">
-    <input type="text" name="name" />
-    <input type="submit" value="Add item!" />
-</form>
+        <form action="/lists/<%= it.list.id %>/items" method="POST">
+            <input class="p-form-text p-form-no-validate" type="text" name="name" placeholder="Type in the name of your item" required />
+            <input class="p-form-button p-form-send" type="submit" value="Add item!" />
+        </form>
+    </div>
 
-<ul> 
-<% if (it.existingItems) { %>
-  <% it.existingItems.forEach((item) => { %>
-    <li>
-    <% if (item.collected) { %>
-        <del><%= item.name %></del>
-    <% } else { %>
-        <%= item.name %>
-    <% } %>
-    
-    <form method="POST" action="/lists/<%= it.list.id %>/items/<%= item.id %>/collect">
-    <% if (item.collected) { %>
-        <input type="submit" value="Restore!" />
-    <% } else { %>
-        <input type="submit" value="Mark collected!" />
-    <% } %>
-    </form>
-    </li>
-  <% }); %>
-  <% } %>
-</ul>
+    <div class="list-items">
+     <h2>Items</h2>
+        <ul> 
+        <% if (it.existingItems) { %>
+        <% it.existingItems.forEach((item) => { %>
+            <li>
+            <% if (item.collected) { %>
+                <del><%= item.name %></del>
+            <% } else { %>
+                <p><%= item.name %></p>
+            <% } %>
+
+             <form method="POST" action="/lists/<%= it.list.id %>/items/<%= item.id %>/collect">
+            <% if (item.collected) { %>
+                <input class="p-form-button p-form-custom-btn p-form-restore" type="submit" value="Restore!" />
+            <% } else { %>
+                <input class="p-form-button p-form-custom-btn p-form-cancel" type="submit" value="Mark collected!" />
+            <% } %>
+            </form>
+            
+            </li>
+        <% }); %>
+        <% } %>
+        </ul>
+    </div>
+</section>
