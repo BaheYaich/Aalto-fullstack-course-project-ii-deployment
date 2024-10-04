@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <title><%~ it.title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Inter:wght@100;400;500;900:500,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/codedgar/Puppertino@latest/dist/css/full.css">
+    <link rel="stylesheet" href="/assets/css/main.min.css" /> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="utf-8">
@@ -10,7 +15,7 @@
 
   <% /* Makeshift navigational breadcrumb */ %>
   <header>
-    <nav>
+    <nav class="container">
       <ul>
         <% if (it.path != "/") { %>
           <%~ includeFile("partials/mainpage.eta") %>
@@ -24,9 +29,9 @@
     
   <% /* Main unique content */ %>
   <main>
-    <div class="container">
+    <section class="container">
       <%~ it.body %>
-    </div>
+    </section>
   </main>
 
   </body>

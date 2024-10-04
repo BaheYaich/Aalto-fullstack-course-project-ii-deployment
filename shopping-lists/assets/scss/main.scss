@@ -1,2 +1,37 @@
 @import "reset";
 @import "nav";
+@import "container";
+@import "homepage";
+
+* {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px; //Base font size 
+}
+
+body {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: #1e90ff;
+        text-decoration: underline;
+    }
+
+    &:visited {
+        color: #a58ad7;
+    }
+
+    &:focus-visible {
+        outline: 2px dashed #1e90ff;
+        outline-offset: 2px;
+    }
+}

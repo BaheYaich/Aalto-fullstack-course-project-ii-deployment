@@ -1,8 +1,11 @@
 import { serve } from "./deps.js";
+import { serveFile } from "./deps.js";
 import { configure } from "./deps.js";
 import * as homepageController from "./controllers/homePageController.js";
 import * as listsController from "./controllers/listsController.js";
 import * as individualListController from "./controllers/individualListController.js";
+
+const port = 7777;
 
 configure({
   views: `${Deno.cwd()}/views/`,
@@ -11,7 +14,10 @@ configure({
 const handleRequest = async (request) => {
   const url = new URL(request.url);
 
-  if (url.pathname === "/" && request.method === "GET") {
+  if (url.pathname.startsWith("/assets")) {
+    const filePath = `.${url.pathname}`;
+    return await serveFile(request, filePath);
+  } else if (url.pathname === "/" && request.method === "GET") {
     return await homepageController.initiateHomepage(request);
   } else if (request.method === "POST" && url.pathname.includes("deactivate")) {
     return await listsController.deleteList(request);
@@ -37,4 +43,4 @@ const handleRequest = async (request) => {
   }
 };
 
-serve(handleRequest, { port: 7777 });
+serve(handleRequest, { port });

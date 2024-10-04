@@ -1,0 +1,14 @@
+main {
+    height: 100dvh;
+    display: grid;
+    place-items: center;
+
+    section {
+        display: inherit;
+        place-items: inherit;
+
+        h1 {
+            text-align: center;
+        }
+    }
+}
