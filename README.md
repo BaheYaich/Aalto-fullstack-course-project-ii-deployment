@@ -19,8 +19,12 @@ development course.
 In the first course project, we build a web application that is used as a shared
 shopping list. The application must use a three-tier architecture (client,
 server, database) and a layered architecture with four layers (views,
-controllers, services, database). This project is run with Deno and a PostgreSQL
-DB in a Docker container. As a bonus and in the name of experimentation and
+controllers, services, database). 
+
+This project is run with Deno and a PostgreSQL
+DB in a Docker container. 
+
+As a bonus and in the name of experimentation and
 learning, I have decided to try building a SCSS compiler in CI/CD Pipeline which
 something I always wanted to make. This was achieved through a bash script using
 SASS CLI.
