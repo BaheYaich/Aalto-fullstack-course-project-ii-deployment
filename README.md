@@ -10,7 +10,7 @@ development course.
 1. ~~Add connection pools to database~~
 2. ~~Add styles / add a sass compiler and integrate it with Github actions~~
 3. ~~Add at least 5 unit tests~~
-4. Add documentation and guidelines
+4. ~~Add documentation and guidelines~~
 5. Deploy on Render and add environment variables
 6. Submit project
 
