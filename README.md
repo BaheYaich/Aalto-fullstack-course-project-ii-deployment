@@ -1,9 +1,16 @@
 # Aalto-fullstack
 
-## Chapter 20
+## Chapter 20 - Course Project 1
 
 A branch to track progress on the first course project from Aalto fullstack web
 development course.
+
+## Deployment link
+
+The project is currently deployed on Render, which allows for the creation of a
+PostgreSQL DB for 15 days, after which the link will be no longer relevant :
+
+<https://aalto-fullstack-course-project-1.onrender.com>
 
 ## To do
 
@@ -11,7 +18,7 @@ development course.
 2. ~~Add styles / add a sass compiler and integrate it with Github actions~~
 3. ~~Add at least 5 unit tests~~
 4. ~~Add documentation and guidelines~~
-5. Deploy on Render and add environment variables
+5. ~~Deploy on Render and add environment variables~~
 6. Submit project
 
 ## In a nutshell
@@ -19,15 +26,13 @@ development course.
 In the first course project, we build a web application that is used as a shared
 shopping list. The application must use a three-tier architecture (client,
 server, database) and a layered architecture with four layers (views,
-controllers, services, database). 
+controllers, services, database).
 
-This project is run with Deno and a PostgreSQL
-DB in a Docker container. 
+This project is run with Deno and a PostgreSQL DB in a Docker container.
 
-As a bonus and in the name of experimentation and
-learning, I have decided to try building a SCSS compiler in CI/CD Pipeline which
-something I always wanted to make. This was achieved through a bash script using
-SASS CLI.
+As a bonus and in the name of experimentation and learning, I have decided to
+try building a SCSS compiler in CI/CD Pipeline which something I always wanted
+to make. This was achieved through a bash script using SASS CLI.
 
 1. [Running project locally](#running-project-locally)
    1. [Pre-requisites](#pre-requisites)
