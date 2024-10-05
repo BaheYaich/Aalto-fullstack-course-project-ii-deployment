@@ -19,7 +19,7 @@ PostgreSQL DB for 15 days, after which the link will be no longer relevant :
 3. ~~Add at least 5 unit tests~~
 4. ~~Add documentation and guidelines~~
 5. ~~Deploy on Render and add environment variables~~
-6. Submit project
+6. ~~Submit project~~
 
 ## In a nutshell
 
