@@ -25,8 +25,15 @@ learning, I have decided to try building a SCSS compiler in CI/CD Pipeline which
 something I always wanted to make. This was achieved through a bash script using
 SASS CLI.
 
-1. [Styling](#styling)
-2. [Running project locally](#running-project-locally)
+1. [Running project locally](#running-project-locally)
+   1. [Pre-requisites](#pre-requisites)
+   2. [Environment variables](#environment-variables)
+   3. [Usage](#usage)
+      1. [Starting and shutting down](#starting-and-shutting-down)
+   4. [Styling](#styling)
+   5. [Database and migrations](#database-and-migrations)
+   6. [Deno cache](#deno-cache)
+   7. [E2E Testing](#e2e-tests-with-playwright)
 
 # Running project locally
 
