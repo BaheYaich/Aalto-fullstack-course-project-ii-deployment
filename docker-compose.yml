@@ -1,10 +1,10 @@
 services:
   app:
-    build: shopping-lists
-    image: shopping-lists
+    build: app
+    image: app
     restart: "no"
     volumes:
-      - ./shopping-lists/:/shopping-lists
+      - ./app/:/app
       - ./app-cache/:/app-cache
     ports:
       - 7777:7777

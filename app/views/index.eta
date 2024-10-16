@@ -1,0 +1,60 @@
+<h1>Tickets</h1>
+
+<section id="Tickets" class="container">
+  <div class="form-add-list">
+    <h2>Add a ticket</h2>
+
+    <form method="POST" action="/tickets">
+      <input class="" type="text" name="content" placeholder="Type in the content of the ticket" required />
+      <input class="" type="submit" value="Create" />
+    </form>
+  </div>
+
+  <div>
+    <ul>
+        <% it.tickets.forEach((ticket) => { %>
+            <% if (ticket.resolved_on) { %>
+            <li>R <%= ticket.id %>: <%= ticket.content %>
+                <form method="POST" action="/tickets/<%= ticket.id %>/delete">
+                    <input class="" name="delete" type="submit" value="Delete" />
+                </form>
+            </li>
+            <% } else { %>
+            <li>N <%= ticket.id %>: <%= ticket.content %> 
+                <form method="POST" action="/tickets/<%= ticket.id %>/resolve">
+                    <input class="" name="resolve" type="submit" value="Resolve" />
+                </form>
+                <form method="POST" action="/tickets/<%= ticket.id %>/delete">
+                    <input class="" name="delete" type="submit" value="Delete" />
+                </form>
+            </li>
+            <% }%>
+        <% }); %>
+    </ul>
+  </div>
+</section>
+
+
+<style>
+
+ul {
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+justify-content: flex-start;
+gap: 18px;
+width: max-content;
+    li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        form {
+            margin-bottom: 0;
+            margin-left: 12px;
+        }
+    }
+}
+</style>
