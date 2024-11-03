@@ -5,12 +5,32 @@ const app = new Application();
 const router = new Router();
 app.use(Session.initMiddleware());
 
-const showStatus = ({ response }) => {
-  response.body = "Not authenticated";
-};
+const authenticate = async ({ request, response, state }) => {
+  const authenticated = await state.session.get("authenticated");
 
-const authenticate = ({ response }) => {
-  response.redirect("/");
+  if (!authenticated) {
+    const body = request.body();
+    const params = await body.value;
+    const username = params.get("username");
+    const password = params.get("password");
+    if ((password === "00000000") && (username === "Minuteman")) {
+      await state.session.set("authenticated", true);
+      response.body = "Authenticated";
+      response.redirect("/");
+    } else {
+      response.status = 401;
+      response.body = "Bad credentials";
+    }
+  };
+}
+
+const showStatus = async ({ response, state }) => {
+  const authenticated = await state.session.get("authenticated")
+  if (!authenticated) {
+    response.body = "Not authenticated";
+  } else {
+    response.body = "Authenticated";
+  }
 };
 
 router.get("/", showStatus);
