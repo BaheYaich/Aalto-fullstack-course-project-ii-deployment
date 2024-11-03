@@ -1,6 +1,6 @@
 # Aalto-fullstack
 
-## Chapter 24 - Cookies and sessions
+## Chapter 25 - Authentication and Authorization
 
-A branch to track progress on the 24th chapter from the Aalto fullstack web
+A branch to track progress on the 25th chapter from the Aalto fullstack web
 development course.
