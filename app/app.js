@@ -9,6 +9,18 @@ app.use(errorMiddleware);
 
 app.use(Session.initMiddleware());
 
+app.use(async ({ request, response, state }, next) => {
+  if (request.url.pathname.startsWith("/accounts")) {
+    if (await state.session.get("authenticated")) {
+      await next()
+    } else {
+      response.status = 401
+    }
+  } else {
+    await next()
+  }
+})
+
 app.use(renderMiddleware);
 
 app.use(router.routes());
