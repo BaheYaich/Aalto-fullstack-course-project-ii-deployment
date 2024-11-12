@@ -1,0 +1,7 @@
+POST http://localhost:7777/songs
+Content-Type: application/json
+
+{
+  "name": "Test Song",
+  "rating": 1
+}

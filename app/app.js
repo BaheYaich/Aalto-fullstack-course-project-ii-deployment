@@ -1,62 +1,79 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { renderMiddleware } from "./middlewares/renderMiddleware.js";
-import { sql } from "./database/database.js";
+import * as songService from "./services/songService.js"
 
 const app = new Application();
 const router = new Router();
 
-app.use(renderMiddleware);
+app.use(renderMiddleware)
 
-const getSongs = async () => {
-  return await sql`SELECT * FROM songs`;
-};
-
-const addSong = async (name, rating) => {
-  return await sql`INSERT INTO songs (name, rating) VALUES (${name}, ${rating})`;
-};
-
-const showForm = async ({ render }) => {
-  render("index.eta", { songs: await getSongs(), name: "", rating: "" });
-};
+const getAllSongs = async ({ response }) => {
+  const songs = await songService.getAllSongs()
+  response.type = "application/json";
+  response.body = songs
+}
 
 
-const submitForm = async ({ request, render, response }) => {
-  const body = request.body();
-  const params = await body.value;
+const getSong = async ({ params, response }) => {
+  const { id } = params
+  const song = await songService.getSong(id)
 
-  const name = params.get("name") || "";
-  const ratingStr = params.get("rating") || "";
-  const rating = ratingStr ? Number(ratingStr) : null;
-
-  const errors = [];
-
-  if ((name.length <= 5) || (name.length >= 20)) {
-    errors.push("Song name must be between 5 and 20 characters long");
+  if (song) {
+    response.type = "application/json";
+    response.body = song
+  } else {
+    response.status = 404
+    response.body = { error: "Song not found" }
   }
+}
 
-  if (ratingStr) {
-    if ((isNaN(rating)) || (rating <= 1 || rating >= 10)) {
-      errors.push("Rating must be a number between 1 and 10");
+const deleteSong = async ({ params, response }) => {
+  const { id } = params;
+  const success = await songService.deleteSong(id);
+
+  if (success) {
+    response.status = 204
+    response.body = { status: "success" }
+  } else {
+    response.status = 404
+    response.body = { error: "Song not found or could not be deleted" };
+  }
+}
+
+const addSong = async ({ request, response }) => {
+  try {
+    const body = await request.body({ type: "json" });
+    console.log("Raw body type:", body.type);
+    console.log("Raw body:", body);
+
+    const { name, rating } = await body.value;
+    console.log("Parsed values:", { name, rating });
+
+    if (!name || !rating) {
+      throw new Error("Invalid name or rating");
     }
-  }
 
-  if (errors.length > 0) {
-    await render("index.eta", {
-      errors: errors,
-      name: name,
-      rating: ratingStr,
-    });
-    return;
-  }
+    const success = await songService.addSong(name, rating);
 
-  await addSong(name, rating);
-  response.redirect("/");
+    if (success) {
+      response.status = 200;
+      response.body = { status: "success" };
+    } else {
+      response.status = 500;
+      response.body = { error: "Song could not be added" };
+    }
+  } catch (error) {
+    console.error("Error in addSong handler:", error);
+    response.status = 400;
+    response.body = { error: error.message };
+  }
 };
 
-router.get("/", showForm);
-router.post("/", submitForm);
+router.get("/songs", getAllSongs);
+router.get("/songs/:id", getSong).delete("/songs/:id", deleteSong)
+router.post("/songs", addSong)
 
-app.use(router.routes());
+app.use(router.routes())
 
 if (!Deno.env.get("TEST_ENVIRONMENT")) {
   app.listen({ port: 7777 });
