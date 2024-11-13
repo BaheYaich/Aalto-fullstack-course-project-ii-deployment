@@ -1,77 +1,116 @@
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 import { renderMiddleware } from "./middlewares/renderMiddleware.js";
-import * as songService from "./services/songService.js"
+import * as gameService from "./services/gameService.js"
 
 const app = new Application();
 const router = new Router();
 
 app.use(renderMiddleware)
 
-const getAllSongs = async ({ response }) => {
-  const songs = await songService.getAllSongs()
+const getAllGames = async ({ response }) => {
+  const games = await gameService.getAllGames()
   response.type = "application/json";
-  response.body = songs
+  response.body = games
 }
 
 
-const getSong = async ({ params, response }) => {
+const getGame = async ({ params, response }) => {
   const { id } = params
-  const song = await songService.getSong(id)
+  const game = await gameService.getGame(id)
 
-  if (song) {
+  if (game) {
     response.type = "application/json";
-    response.body = song
+    response.body = game
   } else {
     response.status = 404
-    response.body = { error: "Song not found" }
+    response.body = { error: "Game not found" }
   }
 }
 
-const deleteSong = async ({ params, response }) => {
+const deleteGame = async ({ params, response }) => {
   const { id } = params;
-  const success = await songService.deleteSong(id);
+  const success = await gameService.deleteGame(id);
 
   if (success) {
     response.status = 204
     response.body = { status: "success" }
   } else {
     response.status = 404
-    response.body = { error: "Song not found or could not be deleted" };
+    response.body = { error: "Game not found or could not be deleted" };
   }
 }
 
-const addSong = async ({ request, response }) => {
+const addGame = async ({ request, response }) => {
   try {
     const body = await request.body({ type: "json" });
     console.log("Raw body type:", body.type);
     console.log("Raw body:", body);
 
-    const { name, rating } = await body.value;
-    console.log("Parsed values:", { name, rating });
+    const { name } = await body.value;
+    console.log("Parsed values:", { name });
 
-    if (!name || !rating) {
-      throw new Error("Invalid name or rating");
+    if (!name) {
+      throw new Error("Invalid name");
     }
 
-    const success = await songService.addSong(name, rating);
+    const success = await gameService.addGame(name);
 
     if (success) {
       response.status = 200;
       response.body = { status: "success" };
     } else {
       response.status = 500;
-      response.body = { error: "Song could not be added" };
+      response.body = { error: "Game could not be added" };
     }
   } catch (error) {
-    console.error("Error in addSong handler:", error);
+    console.error("Error in addGame handler:", error);
     response.status = 400;
     response.body = { error: error.message };
   }
 };
 
-router.get("/songs", getAllSongs);
-router.get("/songs/:id", getSong).delete("/songs/:id", deleteSong)
-router.post("/songs", addSong)
+const getGameRatings = async ({ params, response }) => {
+  const { id } = params
+  const game = await gameService.getGameRatings(id)
+
+  if (game) {
+    response.type = "application/json";
+    response.body = game
+  } else {
+    response.status = 404
+    response.body = { error: "Game not found" }
+  }
+}
+
+const addRatingToGame = async ({ params, request, response }) => {
+  try {
+    const body = await request.body({ type: "json" });
+    const { rating } = await body.value;
+
+    if (!rating) {
+      throw new Error("Invalid rating");
+    }
+    const { id } = params
+    const success = await gameService.addRating(rating, id);
+
+    if (success) {
+      response.status = 200;
+      response.body = { status: "success" };
+    } else {
+      response.status = 500;
+      response.body = { error: "Rating could not be added" };
+    }
+  } catch (error) {
+    console.error("Error in addRatingToGame handler:", error);
+    response.status = 400;
+    response.body = { error: error.message };
+  }
+};
+
+router.get("/games", getAllGames);
+router.get("/games/:id", getGame).delete("/games/:id", deleteGame)
+router.post("/games", addGame)
+router.get("/games/:id/ratings", getGameRatings).post("/games/:id/ratings", addRatingToGame)
 
 app.use(router.routes())
 

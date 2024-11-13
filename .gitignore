@@ -1,3 +1,4 @@
+/.app-cache
 app-cache/*
 
 *.orig
@@ -19,5 +20,6 @@ gclient_config.py_entries
 /tests/napi/third_party_tests/node_modules
 
 # MacOS generated files
+/.DS_Store
 .DS_Store
 .DS_Store?
