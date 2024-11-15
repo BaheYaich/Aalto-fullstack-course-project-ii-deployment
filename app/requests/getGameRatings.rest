@@ -1,2 +1,0 @@
-GET http://localhost:7777/games/2/ratings
-Content-Type: application/json

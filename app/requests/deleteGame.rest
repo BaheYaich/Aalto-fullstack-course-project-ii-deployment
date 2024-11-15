@@ -1,2 +1,0 @@
-DELETE http://localhost:7777/games/1
-Content-Type: application/json

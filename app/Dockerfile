@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine-1.37.0
+FROM denoland/deno:1.35.1
 
 EXPOSE 7777
 
@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD [ "run", "--unstable", "--watch", "--allow-net", "--allow-read", "--allow-write", "--allow-env", "--no-check", "app.js" ]
+CMD ["deno", "test", "--allow-net"]

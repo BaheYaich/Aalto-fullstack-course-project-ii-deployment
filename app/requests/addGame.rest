@@ -1,4 +1,0 @@
-POST http://localhost:7777/games
-Content-Type: application/json
-
-{"name":"yet another idle game"}
