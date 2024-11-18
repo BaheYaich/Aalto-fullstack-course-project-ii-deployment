@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["deno", "test", "--allow-net"]
+CMD ["deno", "test", "--allow-net", "--allow-read"]
