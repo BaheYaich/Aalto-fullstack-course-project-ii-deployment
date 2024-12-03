@@ -9,7 +9,7 @@ app-cache/*
 /.cargo_home/
 /.idea/
 /.vs/
-/.vscode/
+.vscode/
 gclient_config.py_entries
 /target/
 /std/hash/_wasm/target
