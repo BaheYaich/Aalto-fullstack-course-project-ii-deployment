@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["deno", "run", "--allow-net", "--allow-env", "--allow-read", "--allow-write", "--watch", "app.js"]
+CMD ["deno", "run", "--allow-net", "--allow-env", "--allow-read", "--allow-write", "--watch", "app-launch.js"]
