@@ -1,21 +1,35 @@
 services:
   app:
-    build: app
+    build: drill-and-practice
     image: app
     restart: "no"
     volumes:
-      - ./app/:/app
-      - ./app-cache/:/app-cache
+      - ./drill-and-practice:/drill-and-practice
+      - ./app-cache:/app-cache
     ports:
       - 7777:7777
+    depends_on:
+      - database
+      - flyway
     env_file:
       - project.env
-    develop:
-      watch:
-        - action: sync
-          path: ./app
-          target: /src/app
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
+    environment:
+      - PORT=7777
+      - BASE_URL=http://localhost:7777
+
+  database:
+    container_name: database-server
+    image: postgres:latest
+    restart: "no"
+    env_file:
+        - project.env
+
+  flyway:
+    image: flyway/flyway:11
+    depends_on:
+      - database
+    volumes:
+      - .:/flyway/sql
+    command: -connectRetries=60 -baselineOnMigrate=true migrate
+    env_file:
+      - project.env
