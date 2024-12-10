@@ -29,7 +29,7 @@ export async function load({ locals }) {
       const name = formData.get('name');
       const user_id = locals.user.id;
   
-      const success = await addTopic(name, user_id);
+      const success = await addTopic(name as string, user_id as number);
       if (success) {
         throw redirect(303, '/topics'); // Redirect after successful action
       }

@@ -1,4 +1,5 @@
 import postgres from 'postgres';
+import process from 'process';
 
 const databaseUrl = process.env.DATABASE_URL;
 
