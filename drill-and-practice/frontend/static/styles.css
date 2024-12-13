@@ -1,0 +1,153 @@
+/* CSS Variables */
+:root {
+	/* Background colors - from darkest to lightest */
+	--bg-primary: #121212; /* Main background */
+	--bg-secondary: #1e1e1e; /* Slightly lighter background for cards/sections */
+	--bg-tertiary: #2d2d2d; /* For hover states and highlights */
+
+	/* Text colors */
+	--text-primary: #e1e1e1; /* Main text color, not pure white */
+	--text-secondary: #a0a0a0; /* Secondary text, like subtitles */
+	--text-muted: #6c7280; /* Muted text, like placeholders */
+
+	/* Accent colors */
+	--accent-primary: #7c3aed; /* Primary accent */
+	--accent-secondary: #5b21b6; /* Darker accent for hover states */
+
+	/* Status colors */
+	--success: #059669; /* Success states */
+	--error: #dc2626; /* Error states */
+	--warning: #d97706; /* Warning states */
+  --error-dark: #cc0000;
+}
+
+body {
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+}
+
+/* For better readability */
+p,
+li, button {
+	line-height: 1.6;
+}
+
+/* Links */
+a {
+	color: var(--accent-primary);
+}
+
+a:hover {
+	color: var(--accent-secondary);
+}
+
+/* CSS reset */
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+	-moz-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+	scroll-behavior: smooth;
+}
+
+/* Remove default margin in favour of better control in authored CSS */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin-block-end: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+	list-style: none;
+}
+
+/* Set core body defaults */
+body {
+	position: relative;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	place-items: center;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1,
+h2,
+h3,
+h4,
+input,
+label {
+	line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1,
+h2,
+h3,
+h4 {
+	text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+	color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+	max-width: 100%;
+	display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+	min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+	scroll-margin-block: 5ex;
+}
+
+/* Default button */
+button {
+	cursor: pointer;
+	width: 100%;
+	padding: 0.5rem;
+	border: 1px solid var(--bg-tertiary);
+	background-color: var(--accent-primary);
+	color: var(--text-primary);
+	border-radius: 4px;
+}
+
+button:hover {
+	background-color: var(--accent-secondary);
+}
