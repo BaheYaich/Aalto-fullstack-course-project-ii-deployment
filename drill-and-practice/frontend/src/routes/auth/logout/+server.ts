@@ -1,7 +1,12 @@
 import { redirect } from '@sveltejs/kit';
 import { clearSessionToken } from '$lib/server/userService';
+import type { User } from '$lib/types';
 
-export const POST = async ({ cookies, locals }) => {
+interface Locals {
+    user?: User | null;
+}
+
+export const POST = async ({ cookies, locals }: { cookies: any, locals: Locals }) => {
   if (locals.user) {
     // Clear session token from the database
     await clearSessionToken(locals.user.id);

@@ -1,5 +1,6 @@
 import type { User } from '$lib/types';
 
+
 interface Locals {
     user?: User | null;
 }

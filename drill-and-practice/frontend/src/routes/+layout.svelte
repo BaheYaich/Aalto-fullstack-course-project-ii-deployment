@@ -1,23 +1,22 @@
 <script>
-	import Navbar from '$lib/components/authenticated/Navbar.svelte';
+	import '../app.css';
+	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+  	import Lead from '$lib/components/unauthenticated/Lead.svelte';
+	import Trail from '$lib/components/authenticated/Trail.svelte';
+  	import Greeting from '$lib/components/authenticated/Greeting.svelte';
+						
 	let { data, children } = $props();
 </script>
 
-<Navbar {data} />
-
-<main class="main-container">
-	{@render children?.()}
-	<!-- Render the children slot -->
-</main>
-
-<style>
-	main.main-container {
-		padding: 5rem 1rem 5rem 1rem;
-		max-width: 1200px;
-		margin: 0 auto;
-		display: grid;
-		place-items: start;
-    grid-template-columns: 1fr;
-    width: 100%;
-	}
-</style>
+<AppShell>
+	<svelte:fragment slot="header">
+		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+      <svelte:fragment slot="lead"><Lead /></svelte:fragment>
+      <Greeting {data}></Greeting>
+      <svelte:fragment slot="trail"><Trail {data}></Trail></svelte:fragment>
+		</AppBar>
+	</svelte:fragment>
+	<section class="container mx-auto p-4 h-full grid place-items-center">
+		{@render children?.()}
+	</section>
+</AppShell>

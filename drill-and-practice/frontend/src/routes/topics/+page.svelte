@@ -1,31 +1,52 @@
-<script>
-	let { data } = $props();
+<script lang="ts">
+	import ErrorAlert from '$lib/components/common/ErrorAlert.svelte';
+	import { errorState } from '$lib/state/errorState.svelte';
+
+	type FormProps = {
+		data: { topics: any[]; user: any };
+		form: { errors?: { form: string } } | null;
+	};
+
+	let props = $props();
 	let topicName = $state('');
+	let addForm = $state<HTMLFormElement | null>(null);
+
+	$effect(() => {
+		if (props.form?.errors?.form) {
+			errorState.showError(props.form.errors.form);
+		}
+	});
 </script>
 
-<h1 class="title">Topics</h1>
+<h1 class="big-ass-heading gradient-heading">Topics</h1>
 
-<article>
-	{#if data.user?.admin}
-		<h1>Add a Topic</h1>
-		<form method="POST" action="?/addTopic">
-			<label for="name">Name:</label>
-			<input id="name" name="name" type="text" bind:value={topicName} />
-			<input type="submit" value="Add" />
+<article class="relative">
+	<ErrorAlert />
+
+	{#if props.data.user?.admin}
+		<form 
+			bind:this={addForm}
+			class="form-container flex flex-row gap-2" 
+			method="POST" 
+			action="?/addTopic"
+		>
+			<input class="input variant-form-material" id="name" name="name" type="text" bind:value={topicName} required />
+			<button class="btn variant-form-material" type="submit">Add</button>
 		</form>
 	{/if}
 </article>
+
 <article class="topics-container">
 	<div class="topics">
-		{#if data.topics.length > 0}
+		{#if props.data.topics.length > 0}
 			<ul>
-				{#each data.topics as topic}
-					<li>
-						<a href={`/topics/${topic.id}`}>{topic.name}</a>
-						{#if data.user?.admin}
+				{#each props.data.topics as topic}
+					<li class="flex flex-row gap-2">
+						<a class="btn variant-filled variant-filled-primary capitalize" href={`/topics/${topic.id}/questions`}>{topic.name}</a>
+						{#if props.data.user?.admin}
 							<form method="POST" action="?/deleteTopic">
 								<input type="hidden" name="id" value={topic.id} />
-								<button type="submit">Delete!</button>
+								<button class="btn variant-filled-error" type="submit">Delete</button>
 							</form>
 						{/if}
 					</li>
@@ -36,144 +57,3 @@
 		{/if}
 	</div>
 </article>
-
-<style>
-	.title {
-		text-transform: capitalize;
-		font-weight: 900;
-		background: linear-gradient(
-			135deg,
-			#ff0000 0%,
-			#ff8000 15%,
-			#ffff00 30%,
-			#00ff00 45%,
-			#00ffff 60%,
-			#0080ff 75%,
-			#8000ff 90%,
-			#ff00ff 100%
-		);
-		-webkit-background-clip: text;
-		background-clip: text;
-		color: transparent;
-		margin: 4rem 0;
-		padding: 2rem;
-		text-align: center;
-		width: 100%;
-		font-size: clamp(3rem, 8vw + 1rem, 7rem);
-		line-height: 1;
-		letter-spacing: -0.03em;
-		position: relative;
-	}
-	article {
-		padding: 1rem;
-		max-width: 400px;
-		margin: 0 auto;
-		display: grid;
-		place-items: center;
-		gap: 1rem;
-		border-radius: 4px;
-		width: 100%;
-	}
-
-	form {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		width: 100%;
-	}
-	.topics-container {
-		display: flex;
-		flex-direction: row;
-		gap: 1rem;
-		max-width: inherit;
-		width: 100%;
-
-		.topics {
-			width: 100%;
-			display: block;
-			gap: 1rem;
-			align-items: start;
-			justify-content: center;
-
-			ul {
-				width: 100%;
-				columns: 3;
-				display: grid;
-				grid-template-columns: repeat(3, 1fr);
-				gap: 1rem;
-				align-items: start;
-				justify-content: center;
-				list-style: none;
-				padding: 0;
-				margin: 0;
-
-				li {
-					width: 100%;
-					display: block flex;
-					flex-direction: row;
-					gap: 1rem;
-					align-items: center;
-					justify-content: space-between;
-
-					a {
-						background-color: var(--accent-primary);
-						color: var(--text-primary);
-						text-decoration: none;
-						width: 100%;
-						text-transform: capitalize;
-						padding: 0.5rem 1rem;
-						border-radius: 4px;
-						cursor: pointer;
-						display: inline-block;
-					}
-
-					a:hover {
-						background-color: var(--accent-secondary);
-					}
-
-					button {
-						background-color: var(--error);
-						color: var(--text-primary);
-						border: none;
-						padding: 0.5rem 1rem;
-						border-radius: 4px;
-						cursor: pointer;
-					}
-
-					button:hover {
-						background-color: var(--error-dark);
-					}
-				}
-			}
-		}
-	}
-
-	input[type='text'] {
-		padding: 0.5rem;
-		border: 1px solid var(--bg-tertiary);
-		background-color: var(--bg-primary);
-		color: var(--text-primary);
-		border-radius: 4px;
-	}
-
-	input[type='submit'] {
-		background-color: var(--accent-primary);
-		color: var(--text-primary);
-		border: none;
-		padding: 0.5rem 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-
-	input[type='submit']:hover {
-		background-color: var(--accent-secondary);
-	}
-
-	a {
-		color: var(--accent-primary);
-		text-decoration: none;
-	}
-	a:hover {
-		color: var(--accent-secondary);
-	}
-</style>

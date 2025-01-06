@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+/* Skeleton theme */
+@layer base {
+    :root [data-theme='skeleton']{
+        /* dark mode as default */
+        --theme-font-family-base: system-ui;
+        --theme-font-family-heading: system-ui;
+        --theme-rounded-base: 24px;
+        --theme-rounded-container: 8px;
+    }
+}
+
+html,
+body {
+	@apply h-full overflow-hidden;
+}
+
+/* skeleton theme */
+.app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.big-ass-heading {
+	text-transform: uppercase;
+	font-weight: 900;
+	margin: 0;
+	padding: 2rem;
+	text-align: center;
+	font-size: clamp(3rem, 8vw + 1rem, 7rem);
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+.gradient-heading {
+	@apply bg-clip-text text-transparent box-decoration-clone;
+	/* Direction */
+	@apply bg-gradient-to-br;
+	/* Color Stops */
+	@apply from-primary-500 via-tertiary-500 to-secondary-500;
+}
