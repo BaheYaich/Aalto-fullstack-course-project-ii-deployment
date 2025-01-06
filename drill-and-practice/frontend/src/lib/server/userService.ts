@@ -5,43 +5,23 @@ const generateSessionToken = () => {
   return crypto.randomBytes(64).toString('hex');
 };
 
-const addUser = async (email: string, password: string) => {
+const addUser = async (email: string, hashedPassword: string) => {
   try {
-    // Check if user already exists
-    const existingUsers = await sql`
-      SELECT * FROM users WHERE email = ${email}
-    `;
+    // Check if email already exists
+    const existingUser = await sql`
+      SELECT * FROM users 
+      WHERE email = ${email}`;
 
-    if (existingUsers.length > 0) {
-      throw new Error('User with this email already exists');
+    if (existingUser.length > 0) {
+      throw new Error('Email already in use');
     }
 
-    // Insert new user
-    const result = await sql`
+    await sql`
       INSERT INTO users (email, password) 
-      VALUES (${email}, ${password})
-      RETURNING id
-    `;
-
-    if (result && result.length > 0) {
-      return result[0].id; // Return the new user's ID
-    } else {
-      throw new Error('User registration failed');
-    }
+      VALUES (${email}, ${hashedPassword})`;
   } catch (error) {
     console.error('Error adding user:', error);
-    
-    // Distinguish between different types of errors
-    if (error instanceof Error) {
-      if (
-        error.message.includes('unique constraint') || 
-        error.message.includes('already exists')
-      ) {
-        throw new Error('Email is already registered');
-      }
-    }
-    
-    throw error;
+    throw error; // Re-throw to be caught in the server action
   }
 };
 

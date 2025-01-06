@@ -33,7 +33,26 @@ export const addQuestion = async (
     }
 };
 
-export const deleteQuestion = async (id: number) => {
-    await sql`DELETE FROM questions WHERE id = ${id}`;
-    return true;
-}
+export const deleteQuestion = async (id: number, userId: number, isAdmin: boolean) => {
+    try {
+        // Fetch the question to check ownership
+        const question = await sql`
+            SELECT * FROM questions 
+            WHERE id = ${id}`;
+
+        if (question.length === 0) {
+            return false;
+        }
+
+        // If not an admin, check if the user is the question owner
+        if (!isAdmin && question[0].user_id !== userId) {
+            return false;
+        }
+
+        await sql`DELETE FROM questions WHERE id = ${id}`;
+        return true;
+    } catch (error) {
+        console.error('Error deleting question:', error);
+        return false;
+    }
+};

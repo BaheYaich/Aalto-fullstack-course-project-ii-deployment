@@ -1,12 +1,16 @@
 <script lang="ts">
 	import ErrorAlert from '$lib/components/common/ErrorAlert.svelte';
+	import SuccessAlert from '$lib/components/common/SuccessAlert.svelte';
 	import { errorState } from '$lib/state/errorState.svelte';
+	import { successState } from '$lib/state/successState.svelte';
 	
 	type FormProps = {
 		data: { user: null };
 		form: { 
 			errors?: { message: string };
 			data?: { email: string; password: string };
+			success?: boolean;
+			successMessage?: string;
 		} | null;
 	};
 	
@@ -19,6 +23,10 @@
 			errorState.showError(props.form.errors.message);
 			email = props.form?.data?.email ?? email;
 			password = props.form?.data?.password ?? password;
+		}
+
+		if (props.form?.success && props.form?.successMessage) {
+			successState.showSuccess(props.form.successMessage);
 		}
 	});
 </script>
@@ -33,6 +41,7 @@
 	<h1 class="big-ass-heading gradient-heading">Sign up</h1>
 
 	<ErrorAlert />
+	<SuccessAlert />
 
 	<form 
 		method="POST" 

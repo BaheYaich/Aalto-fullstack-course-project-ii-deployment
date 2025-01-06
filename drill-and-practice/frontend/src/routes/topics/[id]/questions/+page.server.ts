@@ -50,7 +50,7 @@ export async function load({ locals, params }: { locals: Locals; params: { id: s
 
 export const actions = {
 	addQuestion: async ({ request, locals, params }: { request: Request; locals: Locals; params: { id: string } }) => {
-		if (!locals.user?.admin) {
+		if (!locals.user) {
 			return fail(403, { 
 				errors: { form: 'Unauthorized' }
 			});
@@ -80,7 +80,7 @@ export const actions = {
 	},
 
 	deleteQuestion: async ({ request, locals, params }: { request: Request; locals: Locals; params: { id: string } }) => {
-		if (!locals.user?.admin) {
+		if (!locals.user) {
 			return fail(403, { 
 				success: false,
 				errors: { form: 'Unauthorized' }
@@ -90,15 +90,15 @@ export const actions = {
 		const formData = await request.formData();
 		const questionId = Number(formData.get('id'));
 
-		const success = await deleteQuestion(questionId);
+		const success = await deleteQuestion(questionId, locals.user.id, locals.user.admin);
 
 		if (success) {
 			throw redirect(303, `/topics/${params.id}/questions`);
 		}
 
-		return fail(500, {
+		return fail(403, {
 			success: false,
-			errors: { form: 'Failed to delete question' }
+			errors: { form: 'Not authorized to delete this question' }
 		});
 	}
 };

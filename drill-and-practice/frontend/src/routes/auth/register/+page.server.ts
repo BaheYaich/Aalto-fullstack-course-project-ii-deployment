@@ -24,11 +24,33 @@ export const actions: Actions = {
             }
 
             const { email, password } = result.data;
-            const hashedPassword = await hashPassword(password);
-            await addUser(email, hashedPassword);
             
-            return redirect(303, '/auth/login');
+            try {
+                const hashedPassword = await hashPassword(password);
+                await addUser(email, hashedPassword);
+            } catch (dbError) {
+                console.error('Database error during user registration:', dbError);
+                return fail(400, { 
+                    data: { 
+                        email: email, 
+                        password: password 
+                    },
+                    errors: { 
+                        message: 'User registration failed. Email might already be in use.'
+                    }
+                });
+            }
+            
+            return {
+                status: 303,
+                headers: {
+                    location: '/auth/login'
+                },
+                success: true,
+                successMessage: 'Registration successful!'
+            };
         } catch (error) {
+            console.error('Unexpected error during registration:', error);
             return fail(400, { 
                 data: { 
                     email: formData.email as string, 

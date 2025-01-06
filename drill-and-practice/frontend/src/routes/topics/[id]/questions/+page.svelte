@@ -35,7 +35,7 @@
 <article class="relative">
 	<ErrorAlert />
 
-	{#if props.data.user?.admin}
+	{#if props.data.user}
 		<form 
 			bind:this={addForm}
 			class="form-container flex flex-row gap-2" 
@@ -62,7 +62,7 @@
 				{#each props.data.questions as question}
 					<li class="flex flex-row gap-2">
 						<a class="btn variant-filled variant-filled-primary" href={`topics/${question.topic_id}/questions/${question.id}`}>{question.question_text}</a>
-						{#if props.data.user?.admin}
+						{#if props.data.user && (props.data.user.admin || props.data.user.id === question.user_id)}
 							<form method="POST" action="?/deleteQuestion">
 								<input type="hidden" name="id" value={question.id} />
 								<button class="btn variant-filled-error" type="submit">Delete</button>
