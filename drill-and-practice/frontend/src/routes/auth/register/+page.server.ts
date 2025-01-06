@@ -13,6 +13,10 @@ export const actions: Actions = {
             
             if (!result.success) {
                 return fail(400, { 
+                    data: { 
+                        email: formData.email as string, 
+                        password: formData.password as string 
+                    },
                     errors: { 
                         message: result.error.errors[0].message 
                     }
@@ -26,6 +30,10 @@ export const actions: Actions = {
             return redirect(303, '/auth/login');
         } catch (error) {
             return fail(400, { 
+                data: { 
+                    email: formData.email as string, 
+                    password: formData.password as string 
+                },
                 errors: { 
                     message: 'Something went wrong. Please try again.'
                 }

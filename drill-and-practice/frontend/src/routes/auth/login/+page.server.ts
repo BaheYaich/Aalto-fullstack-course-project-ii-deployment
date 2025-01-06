@@ -10,27 +10,23 @@ interface Locals {
 export const actions = {
     default: async ({ request, cookies, locals }) => {
         const formData = await request.formData();
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
 
-        const user = await findUserByEmail(email as string);
+        const user = await findUserByEmail(email);
 
         if (!user || !user.password) {
-            console.log('Server: Invalid credentials error', { 
-                errors: { message: 'Invalid email or password' }
-            });
             return {
+                data: { email, password },
                 errors: { message: 'Invalid email or password' }
             };
         }
 
-        const passwordMatch = await bcrypt.compare(password as string, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-            console.log('Server: Password mismatch error', { 
-                errors: { message: 'Invalid email or password' }
-            });
             return {
+                data: { email, password },
                 errors: { message: 'Invalid email or password' }
             };
         }

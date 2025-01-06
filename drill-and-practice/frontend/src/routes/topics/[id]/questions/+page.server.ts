@@ -61,6 +61,7 @@ export const actions = {
 			
 		if (!result.success) {
 			return fail(400, { 
+				data: { question_text: formData.question_text as string },
 				errors: { form: result.error.errors[0].message }
 			});
 		}
@@ -70,6 +71,7 @@ export const actions = {
 		
 		if (!success) {
 			return fail(400, {
+				data: { question_text },
 				errors: { form: error || 'Failed to add question' }
 			});
 		}

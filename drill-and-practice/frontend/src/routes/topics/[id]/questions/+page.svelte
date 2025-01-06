@@ -8,16 +8,20 @@
 			topic: { name: string };
 			user: any;
 		};
-		form: { errors?: { form: string } } | null;
+		form: { 
+			errors?: { form: string };
+			data?: { question_text: string };
+		} | null;
 	};
 	
 	let props = $props();
-	let question_text = $state('');
+	let question_text = $state(props.form?.data?.question_text ?? '');
 	let addForm = $state<HTMLFormElement | null>(null);
 
 	$effect(() => {
 		if (props.form?.errors?.form) {
 			errorState.showError(props.form.errors.form);
+			question_text = props.form?.data?.question_text ?? question_text;
 		}
 	});
 </script>

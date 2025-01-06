@@ -37,6 +37,7 @@ export async function load({ locals }: { locals: Locals }) {
             
         if (!result.success) {
             return fail(400, { 
+                data: { name: formData.name as string },
                 errors: { form: result.error.errors[0].message }
             });
         }
@@ -46,6 +47,7 @@ export async function load({ locals }: { locals: Locals }) {
         
         if (!success) {
             return fail(400, {
+                data: { name },
                 errors: { form: error || 'Failed to add topic' }
             });
         }

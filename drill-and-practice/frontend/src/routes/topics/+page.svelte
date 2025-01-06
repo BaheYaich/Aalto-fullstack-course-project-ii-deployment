@@ -4,16 +4,20 @@
 
 	type FormProps = {
 		data: { topics: any[]; user: any };
-		form: { errors?: { form: string } } | null;
+		form: { 
+			errors?: { form: string };
+			data?: { name: string };
+		} | null;
 	};
 
 	let props = $props();
-	let topicName = $state('');
+	let topicName = $state(props.form?.data?.name ?? '');
 	let addForm = $state<HTMLFormElement | null>(null);
 
 	$effect(() => {
 		if (props.form?.errors?.form) {
 			errorState.showError(props.form.errors.form);
+			topicName = props.form?.data?.name ?? topicName;
 		}
 	});
 </script>
