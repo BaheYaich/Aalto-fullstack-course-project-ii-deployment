@@ -135,18 +135,14 @@
 					method="POST" 
 					action="?/deleteQuestion" 
 					class="absolute top-4 right-4 z-10 
-							delete-question-btn 
-							opacity-0 
-							group-hover:opacity-100 
-							transition-opacity 
-							duration-300"
+							delete-question-btn"
 				>
 					<input type="hidden" name="id" value={question.id} />
 					<button 
 						type="submit"
-						class="bg-white text-red-500 rounded-full w-8 h-8 
+						class="bg-red-500 text-white rounded-full w-8 h-8 
 								flex items-center justify-center 
-								hover:bg-red-50 
+								hover:bg-red-600 
 								focus:outline-none 
 								shadow-md"
 					>
@@ -159,7 +155,7 @@
 </div>
 
 <style>
-	.question-card:hover .delete-question-btn {
+	.delete-question-btn {
 		opacity: 1;
 	}
 </style>

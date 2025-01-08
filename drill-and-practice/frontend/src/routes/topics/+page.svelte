@@ -98,22 +98,14 @@
 						method="POST" 
 						action="?/deleteTopic" 
 						class="absolute top-4 right-4 z-10 
-							   delete-topic-btn 
-							   opacity-0 
-							   group-hover:opacity-100 
-							   transition-opacity 
-							   duration-300"
-						onclick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-						}}
+							   delete-topic-btn"
 					>
 						<input type="hidden" name="id" value={topic.id} />
 						<button 
 							type="submit"
-							class="bg-white text-red-500 rounded-full w-8 h-8 
+							class="bg-red-500 text-white rounded-full w-8 h-8 
 								   flex items-center justify-center 
-								   hover:bg-red-50 
+								   hover:bg-red-600 
 								   focus:outline-none 
 								   shadow-md"
 						>
@@ -132,7 +124,7 @@
 </div>
 
 <style>
-	.topic-card:hover .delete-topic-btn {
+	.delete-topic-btn {
 		opacity: 1;
 	}
 </style>
