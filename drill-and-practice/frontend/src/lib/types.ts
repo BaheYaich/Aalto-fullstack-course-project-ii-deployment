@@ -1,9 +1,7 @@
 export interface User {
     id: number;
-    email: string;
     admin: boolean;
-    password?: string; // Optional since we might not always want to expose this
-    session_token?: string; // Optional since it's session-specific
+    email: string;
 }
 
 export interface Topic {
@@ -31,4 +29,8 @@ export interface QuestionAnswer {
     user_id: number;
     question_id: number;
     question_answer_option_id: number;
+}
+
+export interface Locals {
+    user?: User | null;
 }

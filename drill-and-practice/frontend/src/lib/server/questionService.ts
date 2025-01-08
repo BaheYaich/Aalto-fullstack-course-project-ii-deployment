@@ -41,18 +41,25 @@ export const deleteQuestion = async (id: number, userId: number, isAdmin: boolea
             WHERE id = ${id}`;
 
         if (question.length === 0) {
-            return false;
+            return { success: false, error: 'Question not found' };
         }
 
         // If not an admin, check if the user is the question owner
         if (!isAdmin && question[0].user_id !== userId) {
-            return false;
+            return { success: false, error: 'Not authorized to delete this question' };
         }
 
         await sql`DELETE FROM questions WHERE id = ${id}`;
-        return true;
+        return { success: true };
     } catch (error) {
         console.error('Error deleting question:', error);
-        return false;
+        return { success: false, error: 'Database error occurred' };
     }
 };
+
+export async function getQuestionById(id: number) {
+    const result = await sql`
+        SELECT * FROM questions WHERE id = ${id}
+    `;
+    return result[0];
+}

@@ -2,6 +2,7 @@ import { redirect, fail } from '@sveltejs/kit';
 import { fetchTopics, addTopic, deleteTopic } from '$lib/server/topicService';
 import { topicSchema } from '$lib/validation/topicSchema';
 import type { User } from '$lib/types';
+import type { Actions } from './$types';
 
 interface Locals {
     user?: User | null;
@@ -25,7 +26,7 @@ export async function load({ locals }: { locals: Locals }) {
   }
 
   export const actions = {
-    addTopic: async ({ request, locals }: { request: Request, locals: Locals }) => {
+    addTopic: async ({ request, locals }) => {
         if (!locals.user?.admin) {
             return fail(403, { 
                 errors: { form: 'Unauthorized' }
@@ -55,7 +56,7 @@ export async function load({ locals }: { locals: Locals }) {
         throw redirect(303, '/topics');
     },
 
-    deleteTopic: async ({ request, locals }: { request: Request, locals: Locals }) => {
+    deleteTopic: async ({ request, locals }) => {
         if (!locals.user?.admin) {
             return fail(403, { 
                 errors: { form: 'Unauthorized' }
@@ -75,4 +76,4 @@ export async function load({ locals }: { locals: Locals }) {
     
         throw redirect(303, '/topics');
     }
-};
+} satisfies Actions;
