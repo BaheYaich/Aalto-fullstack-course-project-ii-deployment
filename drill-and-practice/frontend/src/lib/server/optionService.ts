@@ -113,4 +113,23 @@ export const deleteQuestionOption = async (id: number) => {
         console.error('Error deleting question option:', error);
         return false;
     }
+};
+
+export const updateCorrectAnswer = async (questionId: number, optionId: number) => {
+    try {
+        await sql`
+            UPDATE question_answer_options 
+            SET is_correct = false 
+            WHERE question_id = ${questionId}`;
+
+        await sql`
+            UPDATE question_answer_options 
+            SET is_correct = true 
+            WHERE id = ${optionId}`;
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error updating correct answer:', error);
+        return { success: false, error: 'Database error occurred' };
+    }
 }; 

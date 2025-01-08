@@ -11,4 +11,11 @@ export const questionSchema = z.object({
     .refine((text) => text.trim().endsWith('?'), {
       message: "Question must end with a question mark"
     })
+    .transform(text => {
+      // Capitalize first letter and ensure it ends with a question mark
+      text = text.trim();
+      text = text.charAt(0).toUpperCase() + text.slice(1);
+      if (!text.endsWith('?')) text += '?';
+      return text;
+    })
 });

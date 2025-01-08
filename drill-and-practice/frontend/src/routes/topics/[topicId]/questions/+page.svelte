@@ -2,8 +2,8 @@
 	import ErrorAlert from '$lib/components/common/ErrorAlert.svelte';
 	import { errorState } from '$lib/state/errorState.svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import type { ModalStore, ModalSettings } from '@skeletonlabs/skeleton';
-	import OptionsModal from './[questionId]/options/OptionsModal.svelte';
+	import type { ModalSettings } from '@skeletonlabs/skeleton';
+	import AnswerModal from './[questionId]/options/AnswerModal.svelte';
 	
 	function generateUniqueGradient() {
 		const hue1 = Math.floor(Math.random() * 360);
@@ -52,31 +52,45 @@
 		}
 	});
 
-	function openOptionsModal(questionId: number, questionText: string) {
-		const modal: ModalSettings = {
-			type: 'component',
-			component: {
-				ref: OptionsModal,
-				props: {
-					topicId: props.data.topic.id,
-					questionId: questionId,
-					questionText: questionText
-				}
-			},
-			backdropClasses: 'bg-black/95',
-			modalClasses: 'w-modal-wide max-w-2xl'
-		};
-		modalStore.trigger(modal);
+	function handleQuestionClick(question: Question) {
+		if (props.data.user && (props.data.user.admin || props.data.user.id === question.user_id)) {
+			// Navigate to options page for owners/admins
+			window.location.href = `/topics/${props.data.topic.id}/questions/${question.id}/options`;
+		} else {
+			// Open answer modal for normal users
+			const modal: ModalSettings = {
+				type: 'component',
+				component: {
+					ref: AnswerModal,
+					props: {
+						questionId: question.id,
+						questionText: question.question_text
+					}
+				},
+				backdropClasses: 'bg-black/95',
+				modalClasses: 'w-modal-wide max-w-2xl'
+			};
+			modalStore.trigger(modal);
+		}
 	}
 
 	const modalStore = getModalStore();
 </script>
 
-<a href="/topics" class="no-underline">
-	<h1 class="big-ass-heading gradient-heading hover:scale-[1.02] transition-transform">
+<div class="flex justify-start mb-4 mt-4">
+	<a 
+		href="/topics" 
+		class="btn variant-ghost-primary"
+	>
+		← Back to Topics
+	</a>
+</div>
+
+<div class="flex justify-between items-center mb-8">
+	<h1 class="big-ass-heading gradient-heading">
 		{props.data.topic?.name} Questions
 	</h1>
-</a>
+</div>
 
 <article class="relative w-full">
 	<ErrorAlert />
@@ -118,14 +132,15 @@
 				duration-300 
 				hover:scale-105 
 				hover:shadow-2xl
-				p-10"
+				flex flex-col
+				h-48"
 			style="background: {question.gradient}"
 		>
 			<button 
-				class="w-full h-full text-left"
-				onclick={() => openOptionsModal(question.id, question.question_text)}
+				class="w-full flex-grow flex items-center justify-center text-center px-4 py-2 overflow-hidden"
+				onclick={() => handleQuestionClick(question)}
 			>
-				<h2 class="text-3xl font-bold text-white drop-shadow-md text-center">
+				<h2 class="text-3xl font-bold text-white drop-shadow-md max-w-full">
 					{question.question_text}
 				</h2>
 			</button>
@@ -134,8 +149,9 @@
 				<form 
 					method="POST" 
 					action="?/deleteQuestion" 
-					class="absolute top-4 right-4 z-10 
+					class="absolute top-4 right-4 z-20 
 							delete-question-btn"
+					onclick={(e) => e.stopPropagation()}
 				>
 					<input type="hidden" name="id" value={question.id} />
 					<button 

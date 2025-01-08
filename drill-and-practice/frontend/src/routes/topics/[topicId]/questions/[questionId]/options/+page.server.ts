@@ -1,5 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { fetchQuestionOptions, addQuestionOption, deleteQuestionOption } from '$lib/server/optionService';
+import { fetchQuestionOptions, addQuestionOption, deleteQuestionOption, updateCorrectAnswer } from '$lib/server/optionService';
+import { fetchQuestionById } from '$lib/server/questionService';
 import { questionOptionSchema } from '$lib/validation/questionOptionSchema';
 
 export async function load({ params, parent }) {
@@ -13,21 +14,30 @@ export async function load({ params, parent }) {
     const questionId = Number(params.questionId);
 
     try {
-        const options = await fetchQuestionOptions(questionId);
+        const [options, questionResult] = await Promise.all([
+            fetchQuestionOptions(questionId),
+            fetchQuestionById(questionId)
+        ]);
+
+        if (!questionResult.success || !questionResult.question) {
+            throw new Error(questionResult.error || 'Question not found');
+        }
         
         return {
             options,
             topicId,
             questionId,
-            user
+            user,
+            question_text: questionResult.question.question_text
         };
     } catch (error) {
-        console.error('Error fetching question options:', error);
+        console.error('Error fetching question data:', error);
         return {
             options: [],
             topicId,
             questionId,
-            user
+            user,
+            question_text: 'Question not found'
         };
     }
 }
@@ -98,5 +108,37 @@ export const actions = {
             success: false,
             errors: { form: 'Failed to delete option' }
         });
+    },
+
+    updateCorrectAnswer: async ({ request, params, locals }) => {
+        const user = locals.user;
+
+        if (!user) {
+            return fail(403, { 
+                errors: { form: 'Unauthorized' }
+            });
+        }
+
+        const formData = Object.fromEntries(await request.formData());
+        const optionId = Number(formData.optionId);
+
+        if (!optionId) {
+            return fail(400, {
+                errors: { form: 'Invalid option ID' }
+            });
+        }
+
+        const { success, error } = await updateCorrectAnswer(
+            Number(params.questionId),
+            optionId
+        );
+
+        if (!success) {
+            return fail(500, {
+                errors: { form: error || 'Failed to update correct answer' }
+            });
+        }
+
+        throw redirect(303, `/topics/${params.topicId}/questions/${params.questionId}/options`);
     }
 }; 

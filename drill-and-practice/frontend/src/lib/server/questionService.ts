@@ -63,3 +63,24 @@ export async function getQuestionById(id: number) {
     `;
     return result[0];
 }
+
+export const fetchQuestionById = async (questionId: number) => {
+    try {
+        const result = await sql`
+            SELECT question_text 
+            FROM questions 
+            WHERE id = ${questionId}`;
+        
+        if (result.length === 0) {
+            return { success: false, error: 'Question not found' };
+        }
+
+        return { 
+            success: true, 
+            question: result[0]
+        };
+    } catch (error) {
+        console.error('Error fetching question:', error);
+        return { success: false, error: 'Database error occurred' };
+    }
+};

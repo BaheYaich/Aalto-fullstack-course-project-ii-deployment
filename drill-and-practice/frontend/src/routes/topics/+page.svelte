@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import ErrorAlert from '$lib/components/common/ErrorAlert.svelte';
 	import { errorState } from '$lib/state/errorState.svelte';
 
@@ -44,10 +43,10 @@
 </script>
 
 <div class="topics-container w-full p-4 md:p-8">
-	<article class="relative">
+	<article class="relative p-8">
 		<ErrorAlert />
 
-		<h1 class="text-4xl font-bold mb-8 text-center">Topics</h1>
+		<h1 class="text-4xl font-bold mb-8 p-8 text-center big-ass-heading gradient-heading">Topics</h1>
 
 		{#if props.data.user?.admin}
 			<form 
@@ -64,7 +63,7 @@
 					bind:value={topicName} 
 					required 
 				/>
-				<button class="btn variant-form-material" type="submit">Add</button>
+				<button class="btn variant-form-material" type="submit">Add Topic</button>
 			</form>
 		{/if}
 	</article>
