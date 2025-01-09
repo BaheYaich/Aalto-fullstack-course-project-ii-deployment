@@ -33,8 +33,6 @@ body {
 .big-ass-heading {
 	text-transform: uppercase;
 	font-weight: 900;
-	margin: 0;
-	padding: 2rem;
 	text-align: center;
 	font-size: clamp(3rem, 8vw + 1rem, 7rem);
 	line-height: 1;

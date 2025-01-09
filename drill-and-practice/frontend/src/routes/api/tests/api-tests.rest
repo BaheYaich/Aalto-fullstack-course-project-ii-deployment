@@ -1,0 +1,37 @@
+### Test API Endpoints
+@host = http://localhost:5174
+
+### 1. Get Random Question
+GET {{host}}/api/questions/random
+Origin: http://localhost:5174
+Accept: application/json
+
+### 2. Submit Known Correct Answer
+POST {{host}}/api/questions/answer
+Origin: http://localhost:5174
+Content-Type: application/json
+
+{
+    "questionId": 1,
+    "optionId": 2
+}
+
+### 3. Submit Known Incorrect Answer
+POST {{host}}/api/questions/answer
+Origin: http://localhost:5174
+Content-Type: application/json
+
+{
+    "questionId": 1,
+    "optionId": 1
+}
+
+### 4. Submit Invalid Question ID
+POST {{host}}/api/questions/answer
+Origin: http://localhost:5174
+Content-Type: application/json
+
+{
+    "questionId": 999999,
+    "optionId": 1
+}

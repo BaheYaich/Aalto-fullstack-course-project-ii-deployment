@@ -8,6 +8,7 @@
 <LightSwitch />
 {#if user}
 	<ul class="flex flex-row gap-4">
+		<li><a class="btn hover:variant-soft-primary" href="/quiz">Quiz</a></li>
 		<li><a class="btn hover:variant-soft-primary" href="/topics">Topics</a></li>
 		<li>
 			<form method="POST" action="/auth/logout">

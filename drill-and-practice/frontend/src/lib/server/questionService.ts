@@ -13,7 +13,7 @@ export const addQuestion = async (
     topic_id: number,
 ) => {
     try {
-        // Check if question already exists in this topic (case insensitive)
+        // Check if question already exists in this topic
         const existingQuestion = await sql`
             SELECT * FROM questions 
             WHERE LOWER(question_text) = LOWER(${question_text})
@@ -83,4 +83,35 @@ export const fetchQuestionById = async (questionId: number) => {
         console.error('Error fetching question:', error);
         return { success: false, error: 'Database error occurred' };
     }
+};
+
+export async function fetchRandomQuestionByTopic(topicId?: number) {
+    const query = topicId 
+        ? sql`
+            SELECT q.* FROM questions q
+            JOIN question_answer_options qao ON q.id = qao.question_id
+            WHERE q.topic_id = ${topicId}
+            GROUP BY q.id
+            HAVING COUNT(qao.id) > 0
+            ORDER BY RANDOM() 
+            LIMIT 1`
+        : sql`
+            SELECT q.* FROM questions q
+            JOIN question_answer_options qao ON q.id = qao.question_id
+            GROUP BY q.id
+            HAVING COUNT(qao.id) > 0
+            ORDER BY RANDOM() 
+            LIMIT 1`;
+    
+    const result = await query;
+    return result[0];
+}
+
+export const countQuestionsByTopic = async (topicId: number) => {
+    const result = await sql`
+        SELECT COUNT(*) as count 
+        FROM questions 
+        WHERE topic_id = ${topicId}
+    `;
+    return Number(result[0].count);
 };

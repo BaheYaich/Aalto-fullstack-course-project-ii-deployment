@@ -46,7 +46,7 @@
 	<article class="relative p-8">
 		<ErrorAlert />
 
-		<h1 class="text-4xl font-bold mb-8 p-8 text-center big-ass-heading gradient-heading">Topics</h1>
+		<h1 class="text-4xl font-bold p-8 text-center big-ass-heading gradient-heading">Topics</h1>
 
 		{#if props.data.user?.admin}
 			<form 

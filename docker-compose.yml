@@ -40,7 +40,7 @@ services:
       retries: 5
 
   flyway:
-    image: flyway/flyway:11
+    image: flyway/flyway:11.1.1
     depends_on:
       - database
     volumes:
