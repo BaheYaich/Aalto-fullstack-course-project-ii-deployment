@@ -1,6 +1,6 @@
-import sql from '$lib/server/database';
+import sql from './database';
 
-export async function load() {
+export async function getStatsFromDatabase() {
     const stats = await sql`
         SELECT 
             (SELECT COUNT(*) FROM topics) as topic_count,
@@ -9,10 +9,8 @@ export async function load() {
     `;
     
     return {
-        stats: {
-            topicCount: stats[0].topic_count,
-            questionCount: stats[0].question_count,
-            answerCount: stats[0].answer_count
-        }
+        topicCount: stats[0].topic_count,
+        questionCount: stats[0].question_count,
+        answerCount: stats[0].answer_count
     };
-}
+} 

@@ -1,32 +1,62 @@
-	<article class="text-center grid gap-10">
-		<h1 class="text-4xl font-bold">Course Project II</h1>
+<script lang="ts">
+	let props = $props();
+	let stats = $state(props.data.stats);
+</script>
 
-		<p>
-			In the second course project, we build a web application that is used for <b
-				>repeated practice of learned content</b
-			>. The application provides a list of topics and allows creating multiple-choice questions into
-			those topics that are then answered by self and others. The application also shows basic
-			statistics: the total number of available questions and the total number of question answers. In
-			addition, the application also provides an API for retrieving and answering random questions.
-		</p>
+<article class="text-center grid gap-10">
+	<h1 class="text-4xl font-bold">Quiz Application</h1>
 
-		<p>
-			The application must use a <b>three-tier architecture (client, server, database)</b> and a
-			<b>layered architecture with four layers (views, controllers, services, database)</b>.
-			Furthermore, the application naturally needs to be built using <b>Deno and Oak</b>.
-		</p>
+	<p>
+		Welcome to our interactive quiz platform! This application allows users to explore various topics,
+		create multiple-choice questions, and test their knowledge through engaging quizzes. Whether you're
+		interested in Science, Video Games, Music, Geography, Comedy, or Philosophy, there's something here
+		for everyone.
+	</p>
 
-		<p>
-			If you haven't used the application before, you can start by <a class="anchor" href="/auth/register"
-				>registering</a
-			>. If you have been here before, just <a class="anchor" href="/auth/login">log in</a>!
-		</p>
+	<p>
+		<b>Key Features:</b>
+	</p>
+	<ul class="list-none mt-4 space-y-2">
+		<li>✨ Create and manage quiz topics</li>
+		<li>📝 Add multiple-choice questions</li>
+		<li>🎯 Take quizzes and track your progress</li>
+		<li>📊 View your performance statistics</li>
+		<li>🔄 Practice mode for continuous learning</li>
+	</ul>
 
-		<p>
-			If you wish to see how such an application could be built, visit the free online
-			<a class="anchor" href="https://wsd.cs.aalto.fi" target="_blank">Web Software Development Course</a> offered by
-			<a class="anchor" href="https://www.aalto.fi/en" target="_blank">Aalto University</a>.
-		</p>
-	</article>
+	<div class="stats-container grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+		<div class="stat-card p-6 rounded-lg bg-surface-100-800-token">
+			<h3 class="text-2xl font-bold">{stats.topicCount}</h3>
+			<p>Topics Available</p>
+		</div>
+		<div class="stat-card p-6 rounded-lg bg-surface-100-800-token">
+			<h3 class="text-2xl font-bold">{stats.questionCount}</h3>
+			<p>Total Questions</p>
+		</div>
+		<div class="stat-card p-6 rounded-lg bg-surface-100-800-token">
+			<h3 class="text-2xl font-bold">{stats.answerCount}</h3>
+			<p>Questions Answered</p>
+		</div>
+	</div>
+
+	<p>
+		Ready to start? <a class="anchor" href="/auth/register">Register</a> for a new account or 
+		<a class="anchor" href="/auth/login">log in</a> if you're already a member!
+	</p>
+</article>
+
+<style>
+	.stat-card {
+		transition: transform 0.2s ease-in-out;
+	}
+
+	.stat-card:hover {
+		transform: translateY(-5px);
+	}
+
+	ul li {
+		opacity: 0.9;
+	}
+</style>
 
 
