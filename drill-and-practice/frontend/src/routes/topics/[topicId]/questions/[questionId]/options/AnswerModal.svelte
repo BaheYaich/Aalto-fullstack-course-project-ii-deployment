@@ -22,8 +22,8 @@
     };
 
     $effect(() => {
-        correctSound = new Audio('/sounds/correct.mp3');
-        incorrectSound = new Audio('/sounds/incorrect.mp3');
+        if (!correctSound) correctSound = new Audio('/sounds/correct.mp3');
+        if (!incorrectSound) incorrectSound = new Audio('/sounds/incorrect.mp3');
         showFeedback = false;
         selectedOptionId = null;
         loadOptions();
@@ -42,6 +42,8 @@
     }
 
     async function handleOptionClick(option: Option) {
+        if (showFeedback) return;
+        
         selectedOptionId = option.id;
         showFeedback = true;
 
@@ -50,16 +52,13 @@
             setTimeout(() => modalStore.close(), 1500);
         } else {
             await incorrectSound?.play();
-            setTimeout(() => {
-                showFeedback = false;
-                selectedOptionId = null;
-            }, 1000);
+            setTimeout(() => modalStore.close(), 2500);
         }
     }
 
     let getOptionClass = $derived((option: Option) => `
         w-full card p-6 flex items-center justify-between
-        hover:variant-ghost-primary cursor-pointer
+        ${!showFeedback ? 'hover:variant-ghost-primary cursor-pointer' : ''}
         ${showFeedback && option.is_correct ? 'variant-ghost-success' : ''}
         ${showFeedback && !option.is_correct && selectedOptionId === option.id ? 'variant-ghost-error' : ''}
     `);
@@ -68,6 +67,12 @@
 <div class="modal-content card p-8 w-modal shadow-xl bg-surface-100-800-token space-y-6">
     <ErrorAlert />
     <h2 class="h2 text-center mb-8">{questionText}</h2>
+
+    {#if showFeedback && !options.find(o => o.id === selectedOptionId)?.is_correct}
+        <p class="text-lg text-center text-error-500 mb-4">
+            The correct answer was: {options.find(o => o.is_correct)?.option_text}
+        </p>
+    {/if}
 
     {#if isLoading}
         <div class="flex justify-center p-4">
