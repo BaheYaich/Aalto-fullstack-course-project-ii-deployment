@@ -1,0 +1,29 @@
+{
+  "cookies": [
+    {
+      "name": "token",
+      "value": "b6d304fc6f1e1d3b8f913991d8a89a1497ca6c66074e1af33812f1accbf46e042f9b272056545d7c354ac5c4d43c16169c06750e015fdb9ab383f3b89e083957",
+      "domain": "localhost",
+      "path": "/",
+      "expires": 1736536072.245437,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:5174",
+      "localStorage": [
+        {
+          "name": "modeCurrent",
+          "value": "true"
+        },
+        {
+          "name": "modeOsPrefers",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}

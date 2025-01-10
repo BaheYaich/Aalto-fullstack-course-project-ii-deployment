@@ -1,6 +1,7 @@
 <script lang="ts">
 	let props = $props();
 	let stats = $state(props.data.stats);
+	let user = $state(props.data.user);
 </script>
 
 <article class="text-center grid gap-10">
@@ -39,10 +40,12 @@
 		</div>
 	</div>
 
-	<p>
-		Ready to start? <a class="anchor" href="/auth/register">Register</a> for a new account or 
-		<a class="anchor" href="/auth/login">log in</a> if you're already a member!
-	</p>
+	{#if !user}
+		<p>
+			Ready to start? <a class="anchor" href="/auth/register">Register</a> for a new account or 
+			<a class="anchor" href="/auth/login">log in</a> if you're already a member!
+		</p>
+	{/if}
 </article>
 
 <style>

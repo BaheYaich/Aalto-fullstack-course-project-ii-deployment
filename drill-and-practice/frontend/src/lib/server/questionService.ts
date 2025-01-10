@@ -1,5 +1,10 @@
 import sql from '$lib/server/database';
+import { validateQuestionText, isAuthorizedToDelete } from './services/pure/questionService';
 
+// Re-export pure functions
+export { validateQuestionText, isAuthorizedToDelete };
+
+// Database operations
 export async function fetchQuestionsByTopic(topicId: number) {
     const questions = await sql`
         SELECT * FROM questions 
@@ -13,7 +18,10 @@ export const addQuestion = async (
     topic_id: number,
 ) => {
     try {
-        // Check if question already exists in this topic
+        if (!validateQuestionText(question_text)) {
+            return { success: false, error: 'Invalid question format' };
+        }
+
         const existingQuestion = await sql`
             SELECT * FROM questions 
             WHERE LOWER(question_text) = LOWER(${question_text})
@@ -35,7 +43,6 @@ export const addQuestion = async (
 
 export const deleteQuestion = async (id: number, userId: number, isAdmin: boolean) => {
     try {
-        // Fetch the question to check ownership
         const question = await sql`
             SELECT * FROM questions 
             WHERE id = ${id}`;
@@ -44,8 +51,7 @@ export const deleteQuestion = async (id: number, userId: number, isAdmin: boolea
             return { success: false, error: 'Question not found' };
         }
 
-        // If not an admin, check if the user is the question owner
-        if (!isAdmin && question[0].user_id !== userId) {
+        if (!isAuthorizedToDelete(question[0].user_id, userId, isAdmin)) {
             return { success: false, error: 'Not authorized to delete this question' };
         }
 

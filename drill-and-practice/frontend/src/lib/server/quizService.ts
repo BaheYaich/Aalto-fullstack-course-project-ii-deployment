@@ -1,7 +1,15 @@
 import sql from '$lib/server/database';
+import { calculateQuizScore, validateQuizSubmission } from './services/pure/quizService';
+
+// Database operations
+export { calculateQuizScore, validateQuizSubmission };
 
 export async function updateQuizResult(userId: number, topicId: number, userScore: number, topicMaxScore: number) {
     try {
+        if (!validateQuizSubmission({ userId, topicId, answers: new Array(topicMaxScore) })) {
+            return { success: false, error: 'Invalid quiz submission' };
+        }
+
         await sql`
             INSERT INTO quiz_results (user_id, topic_id, user_score, topic_max_score)
             VALUES (${userId}, ${topicId}, ${userScore}, ${topicMaxScore})
