@@ -35,11 +35,11 @@ RUN npm prune --omit=dev
 # Final stage for app image
 FROM base
 
-# Copy built application
-COPY --from=build /app/build /app/build
+# Copy built application from .svelte-kit/output to /app/build
+COPY --from=build /app/.svelte-kit/output /app/build
 COPY --from=build /app/node_modules /app/node_modules
 COPY --from=build /app/package.json /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "node", "./build/index.js" ]
+CMD [ "node", "./build/server/index.js" ]
