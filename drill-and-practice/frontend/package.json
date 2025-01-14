@@ -3,9 +3,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "cross-env vite dev",
-		"build": "cross-env vite build",
-		"preview": "cross-env vite preview",
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:e2e": "playwright test",
