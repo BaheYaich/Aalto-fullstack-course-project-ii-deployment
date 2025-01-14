@@ -1,25 +1,23 @@
-app-cache/
-app-cache/*
+node_modules
 
-*.orig
-*.pyc
-*.swp
-*.env
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
 
-/.cargo_home/
-/.idea/
-/.vs/
-.vscode/
-gclient_config.py_entries
-/target/
-/std/hash/_wasm/target
-/tests/wpt/runner/manifest.json
-/third_party/
-/tests/napi/node_modules
-/tests/napi/build
-/tests/napi/third_party_tests/node_modules
-
-# MacOS generated files
-/.DS_Store
+# OS
 .DS_Store
-.DS_Store?
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
