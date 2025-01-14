@@ -55,6 +55,7 @@
 		"@sveltejs/adapter-node": "^5.2.11",
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
+		"dotenv": "^16.4.7",
 		"lucide-svelte": "^0.469.0",
 		"postgres": "^3.4.5",
 		"zod": "^3.23.8"

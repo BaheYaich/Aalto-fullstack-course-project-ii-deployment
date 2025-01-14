@@ -1,24 +1,25 @@
 import postgres from 'postgres';
-import { env } from '$env/dynamic/private';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const getDatabaseUrl = () => {
-    // For Vercel deployment
-    if (env.DATABASE_URL) {
-        return env.DATABASE_URL;
+    if (process.env.DATABASE_URL) {
+        return process.env.DATABASE_URL;
     }
 
-    // For local development
-    const { PGUSER, PGPASSWORD, PGDATABASE } = env;
-    if (!PGUSER || !PGPASSWORD || !PGDATABASE) {
+    const { PGUSER, PGPASSWORD, PGDATABASE, PGHOST } = process.env;
+    if (!PGUSER || !PGPASSWORD || !PGDATABASE || !PGHOST) {
         throw new Error('Database credentials missing. Please check your environment variables.');
     }
 
-    const host = env.DOCKER ? 'database' : 'localhost';
-    return `postgres://${PGUSER}:${PGPASSWORD}@${host}:5432/${PGDATABASE}`;
+    return `postgres://${PGUSER}:${PGPASSWORD}@${PGHOST}:5432/${PGDATABASE}`;
 };
 
 const sql = postgres(getDatabaseUrl(), {
-    ssl: env.NODE_ENV === 'production',
+    ssl: {
+        rejectUnauthorized: false // This is often necessary for self-signed certificates
+    },
     idle_timeout: 2,
     max: 10
 });
