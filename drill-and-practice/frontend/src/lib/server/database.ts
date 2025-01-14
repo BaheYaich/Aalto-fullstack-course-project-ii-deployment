@@ -1,17 +1,19 @@
 import postgres from 'postgres';
-import process from 'process';
 
-const databaseUrl = process.env.DATABASE_URL;
+const getDatabaseUrl = () => {
+    const url = process.env.DATABASE_URL;
+    if (!url) {
+        console.error('DATABASE_URL is not set');
+        return 'postgres://localhost:5432/postgres'; // fallback for dev
+    }
+    return url;
+};
 
-if (!databaseUrl) {
-  throw new Error('DATABASE_URL is not set in environment variables');
-}
-
-const sql = postgres(databaseUrl, {
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
-  idle_timeout: 20,
-  max_lifetime: 60 * 30,
-  max: 10
+const sql = postgres(getDatabaseUrl(), {
+    ssl: true,
+    idle_timeout: 2,
+    max_lifetime: 60 * 30,
+    max: 10
 });
 
 export default sql;

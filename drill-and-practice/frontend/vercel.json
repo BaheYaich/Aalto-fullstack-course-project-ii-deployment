@@ -5,9 +5,14 @@
             "src": "package.json",
             "use": "@vercel/node",
             "config": { 
-                "command": "npm run dev",
-                "port": 5174
+                "command": "npm run dev"
             }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
         }
     ],
     "env": {
