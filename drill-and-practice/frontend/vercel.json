@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/node",
+            "config": { 
+                "command": "npm run dev",
+                "port": 5174
+            }
+        }
+    ],
+    "env": {
+        "NODE_ENV": "development"
+    }
+}
