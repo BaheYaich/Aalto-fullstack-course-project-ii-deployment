@@ -10,8 +10,13 @@ const config = {
 			edge: false,
 			split: false,
 			external: [],
-			outputDirectory: 'public'
-		})
+		}),
+		files: {
+			assets: 'static',
+			lib: 'src/lib',
+			routes: 'src/routes',
+			appTemplate: 'src/app.html'
+		}
 	}
 };
 
