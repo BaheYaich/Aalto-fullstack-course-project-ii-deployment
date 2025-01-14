@@ -1,18 +1,26 @@
 import postgres from 'postgres';
+import { env } from '$env/dynamic/private';
 
 const getDatabaseUrl = () => {
-    const url = process.env.DATABASE_URL;
-    if (!url) {
-        console.error('DATABASE_URL is not set');
-        return 'postgres://localhost:5432/postgres'; // fallback for dev
+    // Try to get from SvelteKit's env first (which reads from process.env)
+    const { PGUSER, PGPASSWORD, PGDATABASE } = env;
+    
+    if (!PGUSER || !PGPASSWORD || !PGDATABASE) {
+        console.warn('Database credentials not found in environment');
+        // During build, return dummy connection
+        if (process.env.NODE_ENV === 'production') {
+            return 'postgres://dummy';
+        }
+        throw new Error('Database credentials missing. Please check your environment variables.');
     }
-    return url;
+
+    const host = process.env.DOCKER ? 'database' : 'localhost';
+    return `postgres://${PGUSER}:${PGPASSWORD}@${host}:5432/${PGDATABASE}`;
 };
 
 const sql = postgres(getDatabaseUrl(), {
-    ssl: true,
+    ssl: false,
     idle_timeout: 2,
-    max_lifetime: 60 * 30,
     max: 10
 });
 
