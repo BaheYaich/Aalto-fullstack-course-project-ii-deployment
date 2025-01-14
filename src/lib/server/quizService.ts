@@ -1,5 +1,7 @@
-import sql from '$lib/server/database';
 import { calculateQuizScore, validateQuizSubmission } from './services/pure/quizService';
+import getDatabaseConnection from '$lib/server/database';
+
+const sql = getDatabaseConnection();
 
 // Database operations
 export { calculateQuizScore, validateQuizSubmission };

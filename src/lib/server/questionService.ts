@@ -1,5 +1,8 @@
-import sql from '$lib/server/database';
+import getDatabaseConnection from '$lib/server/database';
 import { validateQuestionText, isAuthorizedToDelete } from './services/pure/questionService';
+
+const sql = getDatabaseConnection();
+
 
 // Re-export pure functions
 export { validateQuestionText, isAuthorizedToDelete };

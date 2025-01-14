@@ -1,4 +1,6 @@
-import sql from './database';
+import getDatabaseConnection from '$lib/server/database';
+
+const sql = getDatabaseConnection();
 
 export const fetchQuestionOptions = async (question_id: number) => {
     console.log('DEBUGGING: fetchQuestionOptions called with question_id:', question_id);

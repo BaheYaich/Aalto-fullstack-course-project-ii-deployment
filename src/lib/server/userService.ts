@@ -1,5 +1,7 @@
-import sql from '$lib/server/database';
 import crypto from 'crypto';
+import getDatabaseConnection from '$lib/server/database';
+
+const sql = getDatabaseConnection();
 
 const generateSessionToken = () => {
   return crypto.randomBytes(64).toString('hex');

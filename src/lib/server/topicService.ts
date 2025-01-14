@@ -1,5 +1,7 @@
-import sql from '$lib/server/database';
 import type { Topic } from '$lib/types';
+import getDatabaseConnection from '$lib/server/database';
+
+const sql = getDatabaseConnection();
 
 export async function fetchTopics() {
     try {

@@ -1,4 +1,6 @@
-import sql from './database';
+import getDatabaseConnection from '$lib/server/database';
+
+const sql = getDatabaseConnection();
 
 export async function getStatsFromDatabase() {
     const stats = await sql`
