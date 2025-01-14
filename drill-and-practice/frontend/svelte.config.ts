@@ -6,7 +6,11 @@ const config = {
 	preprocess: [vitePreprocess()],
 	kit: {
 		adapter: adapter({
-			outDir: '.vercel/output'
+			pages: 'public',
+			assets: 'public',
+			fallback: 'index.html',
+			precompress: false,
+			strict: true
 		})
 	}
 };
