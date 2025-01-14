@@ -20,14 +20,11 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
 
 # Install node modules
-COPY drill-and-practice/frontend/package*.json ./
+COPY package*.json ./
 RUN npm ci --include=dev
 
 # Copy application code
 COPY . .
-
-# Move to the frontend directory for the build
-WORKDIR /app/drill-and-practice/frontend
 
 # Build application
 RUN npm run build
@@ -39,9 +36,9 @@ RUN npm prune --omit=dev
 FROM base
 
 # Copy built application
-COPY --from=build /app/drill-and-practice/frontend/build /app/build
-COPY --from=build /app/drill-and-practice/frontend/node_modules /app/node_modules
-COPY --from=build /app/drill-and-practice/frontend/package.json /app
+COPY --from=build /app/build /app/build
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/package.json /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
