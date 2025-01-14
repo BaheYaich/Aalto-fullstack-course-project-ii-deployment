@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && cp -r .svelte-kit/output/client/* .vercel/output/static/",
+		"build": "vite build",
 		"preview": "vite preview",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.3",
+		"@flydotio/dockerfile": "^0.7.0",
 		"@playwright/test": "^1.49.1",
 		"@skeletonlabs/skeleton": "^2.10.3",
 		"@skeletonlabs/tw-plugin": "^0.4.0",
@@ -51,6 +52,7 @@
 		"vitest": "^2.1.8"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-node": "^5.2.11",
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
 		"lucide-svelte": "^0.469.0",
