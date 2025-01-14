@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ./drill-and-practice/frontend
+      context: .
       dockerfile: Dockerfile
     platform: linux/arm64
     image: sveltekit-frontend
