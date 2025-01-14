@@ -69,5 +69,8 @@
 		"esbuild-linux-x64": "npm:esbuild-linux-x64@latest",
 		"esbuild-wasm": "^0.15.0",
 		"esbuild-win32-x64": "npm:esbuild-win32-x64@latest"
+	},
+	"engines": {
+		"node": "20.x"
 	}
 }
