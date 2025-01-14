@@ -8,7 +8,9 @@ const config = {
 		adapter: adapter({
 			runtime: 'nodejs18.x',
 			edge: false,
-			split: false
+			split: false,
+			external: [],
+			outputDirectory: 'public'
 		})
 	}
 };
